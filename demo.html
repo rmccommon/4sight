@@ -1,0 +1,3955 @@
+<!doctype html>
+<html>
+	<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+		<link href="./css/jquery.dataTables.css" rel="stylesheet">
+		<style>
+    .app{vertical-align:top}
+    .rawEH,.rawFuel,.predictiveEH,.predictiveFuel{display:none}
+    .predictiveFuel{position:relative;left:20px}
+    .xAxis{font-size:0.5em;}
+			#benchmarkPage{display: none;}
+      #marketplacePage{display: none;}
+			.svgI3{ position: relative;top:-52px; }
+			.axisHidden text{display: none}
+			.bar2{
+				background-color: #EF8133;color:#EF8133;fill:#EF8133;
+			}
+		#map { height: 100%; width: 100%}
+			*{
+box-sizing: border-box;}
+			@font-face { font-family: RobotoTwo; src: url(./RobotoTwo-Light.ttf); }
+			html, body { margin: 0px; padding: 0px; width: 100vw; height: 100vh; overflow-x: hidden; }
+			body { background: #fff; }
+			#sidebar { position: absolute; width: 178px; height: 2105px; left: 0px; top: 0px; background: #21282C; }
+			#logo { position: absolute; width: 114px; height: 66px; left: 32px; top: 21px; background: url("./New-SYM-Logo-v6.png"); }
+			#fleetOverview { position: absolute;			width: 121px;			height: 39px;			left: 57px;			top: 140px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;		display: flex;		align-items: center; 			color: #FFFFFF; }
+			#vectorParent{				position: absolute;			width: 24px;			height: 24px;			left: 47px;			top: 147px;			transform: matrix(-1, 0, 0, 1, 0, 0);			}
+			#vector3{			position: absolute;			width: 8.84px;			height: 24px;			left: 31.84px;			}
+			#vector2{			position: absolute;			width: 15px;			height: 24px;			left: 47px;}
+			#vector1{position: absolute;			width: 15px;			height: 0px;			left: 32px;			top: 155px;			}
+			#vehicleOverviewBox{				position: absolute;			width: 178px;			height: 60px;			left: 0px;			top: 188px;			background: #4C8BF5;			}
+			#vehicleOverview{position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 199px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;}
+			#rawData{			position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 258px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;}
+			#settings{			position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 317px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;			}
+			#benchmarks{cursor: pointer;	position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 317px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;			}
+			#benchmarkSVG{			position: absolute;			width: 139px;			height: 39px;			left: 23px;			top: 317px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;		width:80px;	}
+			#diagnostics{cursor: pointer;	position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 377px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;			}
+			#diagnosticsSVG{			position: absolute;			width: 139px;			height: 39px;			left: 23px;			top: 377px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;		width:80px;	}
+			#marketplace{			cursor:pointer;position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 437px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;			}
+			#marketplaceSVG{			position: absolute;			width: 139px;			height: 39px;			left: 23px;			top: 437px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;		width:80px;	}
+
+      #uptake{			position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 494px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;			}
+			#uptakeLogo{			position: absolute;			width: 139px;			height: 39px;			left: 23px;			top: 494px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;		width:80px;	}
+			#uptakeLogo img{width:25px;}
+			#vector4{			position: absolute;			width: 147px;			height: 0px;			left: 16px;			top: 557px;			border: 0.5px solid #888;			}
+			#logout{			position: absolute;			width: 139px;			height: 39px;			left: 57px;			top: 577px;			font-family: RobotoTwo;			font-style: normal;			font-weight: normal;			font-size: 14px;			line-height: 16px;			display: flex;			align-items: center;			color: #FFFFFF;			}
+			#settingCog{			position: absolute;			width: 24px;			height: 21.54px;			left: 23px;			top: 325px;			}
+			#cogcircle{position: absolute;			width: 10px;			height: 10px;			left: 31px;			top: 332px;}
+			#logoutVector{				position: absolute;			width: 24px;			height: 24px;			left: 23px;			top: 584px;			}
+			#logoutV1{				position: absolute;			left: 33.22%;			right: 0%;			top: 19.93%;			bottom: 20.93%;			}
+			#logoutV2{				position: absolute;			left: 0%;			right: 46.01%;			top: 0.17%;			bottom: 0.17%;			}
+			#rawDataV{				position: absolute;			top: 265px;			left: 22px;			}
+			#vehicleV{position: absolute;			width: 24px;			height: 24px;			left: 23px;			top: 206px;}
+			#vehicleV2{position: absolute;			width: 18px;			height: 18px;			left: 23px;			top: 203px;}
+			#fleetV{				position: absolute;			width: 24px;			height: 24px;			left: 47px;			top: 147px;			transform: matrix(-1, 0, 0, 1, 0, 0);			}
+			#fleetV1{				position: absolute;			width: 8.84px;			height: 24px;			left: 22px;			top: 147px;			}
+			#fleetV2{				position: absolute;			width: 15px;			height: 24px;			left: 31px;		top: 147px;			}
+			#fleetV3{				position: absolute;		width: 11px;			height: 0px;			left: 32px;			top: 155px;			border: 1.75px solid #FFFFFF;			}
+	#overview{
+
+position: absolute;
+width: 195px;
+height: 39px;
+left: 218px;
+top: 35px;
+
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 28px;
+display: flex;
+align-items: center;
+
+color: #282828;
+
+
+		/* Vehicle Overview */
+	}
+#assetID{
+	/* Asset ID: A34078 */
+
+position: absolute;
+width: 197px;
+height: 39px;
+left: 218px;
+top: 87px;
+
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 21px;
+display: flex;
+align-items: center;
+
+color: #4C8BF5;
+
+
+}
+#selectDate{/* Rectangle 31 */
+
+position: absolute;
+width: 147px;
+height: 28px;
+left: 391px;
+top: 92px;
+
+background: #FFFFFF;
+border: 0.5px solid #999;
+box-sizing: border-box;
+border-radius: 5px;
+}
+select{border: 0.5px solid #999;padding:6px;
+border-radius: 5px;}
+#selectDateText{
+position: absolute;
+width: 125px;
+height: 39px;
+left: 397px;
+top: 87px;
+
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+display: flex;
+align-items: center;
+
+color: #282828;
+
+}
+select,option{font-family: RobotoTwo;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+display: flex;
+align-items: center;
+
+color: #282828;}
+#assetArrow{position: absolute;
+width: 11px;
+height: 8px;
+left: 362px;
+top: 103px;
+
+}
+#Tosca{
+	/* Tosca Mining */
+
+position: absolute;
+width: 115px;
+height: 39px;
+left: 1277px;
+top: 37px;
+
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 21px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #282828;
+
+
+}
+#exportData{/* Export Data */
+
+position: absolute;
+width: 96px;
+height: 39px;
+left: 1296px;
+top: 87px;
+
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 21px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #282828;
+
+}
+#toscaDivider{
+	/* Vector 86 */
+
+position: absolute;
+width: 0px;
+height: 42px;
+left: 1220px;
+top: 36px;
+
+
+}
+#bell{
+	position: absolute;
+width: 19.03px;
+height: 24px;
+left: 1181px;
+top: 45px;
+
+
+}
+#exportIcon{
+	position: absolute;
+height: 39px;
+left: 1266px;
+top: 87px;
+}
+#miner{
+	/* black-and-white-helmet-weared-miner 1 */
+
+position: absolute;
+width: 34px;
+height: 37px;
+left: 1240px;
+top: 38px;
+
+background: url(./miner.png);
+
+}
+
+#magnify{
+
+position: absolute;
+width: 23px;
+height: 26px;
+left: 1138px;
+top: 44px;
+
+background: url(./magnify.png);
+}
+#dateArrow{
+	/* Polygon 3 */
+
+position: absolute;
+width: 11px;
+height: 8px;
+left: 517px;
+top: 104px;
+
+
+}
+#body{
+	position: absolute;
+width: 1170px;
+height: 1028px;
+left: 221px;
+top: 152px;
+
+background: #FFFFFF;
+box-sizing: border-box;
+}
+#topData{
+	width:100%;
+	display: flex;
+	height:74px;
+}
+#machineHours,#totalFuel,#timeSinceLastMaintenance{
+	flex: 1 0 auto;
+border: 0.5px solid #999;
+border-radius: 8px;display: flex
+}
+#machineHours,#totalFuel{margin-right:16px;}
+.dataRow{
+	border: 0.5px solid #999;
+border-radius: 8px;margin-top:16px;
+height:332px;
+}
+.dataLeft{flex: 2 1 0;padding:10px;
+display: flex;
+justify-content: center;flex-direction: column}
+.dataRight{flex: 1 1 0;font-family: RobotoTwo;
+font-style: normal;
+font-weight: 500;
+font-size: 30px;
+line-height: 28px;
+display: flex;
+align-items: center;padding:10px;justify-content: flex-end;padding-right: 30px}
+.dataNum,.dataUnit{display: inline}
+.dataNum{font-weight: bold;vertical-align: text-bottom;}
+.dataUnit{font-size:16px;vertical-align: bottom;position: relative;top:3px;left:5px;}
+.dataTitle{
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 24px;color: #282828;}
+.dataDate{font-family: RobotoTwo;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 20px;
+
+
+color: #4C8BF5;}
+#assetInfo{display: flex;height:280px;}
+#assetLeft,#assetMiddle,#KPILeft,#KPIMiddle,#alertLeft{
+
+border-right: 0.5px solid #999;
+}
+.rawDataSelectors{display: flex; padding-bottom: 5px; padding-top: 10px; padding-left: 45px;position: relative;z-index: 10;}
+#rawDataGraphContainer{height:395px;}
+#KPIs,#alerts{display: flex}
+#KPILeft,#KPIMiddle,#KPIRight,#alertLeft,#alertRight{
+	flex: 1 1 auto;
+}
+#KPILeft{flex: 0 0 400px;}
+#assetLeft{flex:2 1 auto;}
+#assetMiddle{flex:1 1 auto;background: #F9F9F9;display: flex;flex-direction: column;}
+#assetRight{flex:7 1 auto;}
+.assetBio{flex: 1 1 0;
+border-bottom: 0.5px solid #999;display: flex}
+.assetBioBottom{flex:3 1 auto;}
+.bioLeft{flex:2 1 0;}
+.bioRight{flex:1 1 0;}
+.bioLeft,.bioRight{font-family: RobotoTwo;font-size:1.3em;padding-top: 15px;
+padding-left: 20px;}
+.bioRight{text-align: right;font-weight: bold;font-family: RobotoTwo;padding-right: 20px;}
+.bioLeft{padding-left: 20px;}
+#assetImg,#assetTitle{max-width: 320px}
+#assetTitle{
+	font-family: RobotoTwo;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 21px;
+display: flex;
+align-items: center;
+
+color: #4C8BF5;padding-left:30px;padding-top:15px;
+}
+.engineRawTable{
+	width:100%
+}
+.warningNum{color: #4C8BF5;}
+#assetImg{position: relative;left:20px;}
+.KPIDropdown{position: relative;left:20px;margin-top: 10px;}
+.KPITitle{
+margin-left:20px;
+margin-top:30px;
+
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 21px;
+align-items: center;
+
+color: #282828;
+
+
+}
+.assetDropdown{
+margin-left:20px;
+margin-top:30px;
+
+	color: #4C8BF5;
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 21px;
+align-items: center;
+}
+table{
+
+margin-left:20px;
+margin-top:20px;
+font-family: RobotoTwo;
+font-style: normal;
+font-size: 18px;
+line-height: 21px;
+align-items: center;
+width:300px;
+}
+th {font-weight: bold;text-align: left}
+.left{color: #E02F2F;}
+#alertLeftLabel,#alertClearFilter,#alertLeftTitle select{display: inline}
+#EventTypeLabel,#alertLeftLabel,#alertRightLabel,#healthLabel,#criticalLabel,#graphsLeftLabel,#graphsRightLabel,#barsLabel,.dataBlockTitle{font-family: RobotoTwo;
+font-style: normal;
+font-weight:bold;
+font-size: 18px;
+line-height: 21px;
+margin-right:15px;
+
+color: #282828;}
+#alertClearFilter{
+font-family: RobotoTwo;
+font-style: normal;
+font-weight:bold;
+font-size: 14px;
+line-height: 16px;
+
+color: #282828;
+margin-left: 15px;
+}
+#EventTypeLabel,#alertLeftTitle,#alertRightTitle,#healthLabel,#criticalLabel,#graphsLeftLabel,#graphsRightLabel,#barsLabel,.dataBlockTitle{
+margin-left:20px;
+margin-top:30px;}
+#health{height:75px;width:80%;display: flex}#healthLabel{margin-top:10px;}
+#healthLeftLeft{border-right: 0.5px solid #999;
+				flex: 2 1 auto;
+			}
+#dropdownassets{margin-left: 15px;margin-top: 10px;height: 70%; width: 80%;border:0px;
+   				outline:0px;font-family: RobotoTwo;
+   				font-style: normal;
+    			font-weight: 750;
+    			font-size: 18px;
+				color:#4C8BF5;}
+#healthLeft{flex: 7 1 auto}
+#healthRight{flex:1 1 auto;}
+#healthBar{
+font-family: RobotoTwo;
+font-style: normal;
+font-weight:bold;
+font-size: 18px;
+line-height: 16px;
+
+color: #FFFFFF;
+margin-left: 15px;border-radius:8px;height:30px;text-align:right;}
+#healthy,#warning,#critical,.legendLabel{
+	font-family: RobotoTwo;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 20px;
+display: flex;
+align-items: center;
+
+color: #282828;
+}
+#circleGreen,#circleYellow,#circleRed,.legendCircle{
+	width:12px;height:12px;border-radius: 50%;margin-right:4px;
+}
+.legendCircle{display: inline-block;margin-right:7px;position: relative;top:2px;}
+.legendLabel{display: inline-block}
+#healthRight{padding-top:7px;position:relative;left:20px;}
+#circleGreen,.legendCircle{background: #4F9F62;}
+#circleYellow{background: #F19933;}
+#circleRed{background: #EA5533;}
+#graphs{display: flex;}
+#graphsLeft,#graphsRight{flex: 1 1 auto;}
+#graphsLeft{
+	border-right: 0.5px solid #999;}
+	.dataBlock{
+		width: 277px;
+height: 112px;
+
+background: #FFFFFF;
+border: 0.5px solid #999;
+box-sizing: border-box;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 10px;
+display: flex;margin-right:20px;margin-bottom:20px;
+	}
+	.dataBlockLeft{flex:3 1 auto}
+	.dataBlockRight{flex:1 1 auto}
+	.arrow{width: 28px;
+height: 20px;position: relative;top:40px;}
+.dataBlockSubtitle{
+font-family: RobotoTwo;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 21px;
+
+color: #282828;margin-top:10px;margin-left:20px;}
+#dataBlocks{margin-top:20px;display: flex;flex-wrap:wrap;width:1300px;}
+#rawDataDiv{height:400px;}
+#vehiclePage{display: block}
+#fleetPage{display: none}
+#rawDataPage{display: none}
+form{position: relative;left:400px;}
+
+#eventTypeChart{position: relative;top:-25px;}
+
+svg text {
+  font-family: Helvetica,Arial,Verdana,sans-serif;
+  fill: #666;
+  font-size: 10px;
+}
+
+.line {
+  fill: none;
+  stroke: #3880aa;;
+  stroke-width: 3px;
+}
+
+.path-fill {
+  fill: #3880aa;;
+  opacity: 0.3;
+  stroke: none;
+}
+
+  .axis .domain {
+  }
+
+  .axis .tick line {
+    stroke: #EEE;
+    stroke-width: 1px;
+  }
+  .tooltip-line {
+    fill: none;
+    stroke: #3880aa;;
+    stroke-width: 1px;
+    stroke-dasharray: 3px;
+  }
+
+  .tooltip-point {
+    fill: #3880aa;;
+    stroke: #3880aa;;
+    stroke-width: 1px;
+  }
+
+.avg-line {
+  fill: none;
+  stroke: #3880aa;;
+  stroke-width: 1px;
+  stroke-dasharray: 5px;
+}
+.line3 {
+    fill: none;
+    stroke: #F59727;
+    stroke-width: 3;
+}
+.line2 {
+    fill: none;
+    stroke: #4C8BF5;
+    stroke-width: 3;
+}
+.Engineline2{
+	fill: none;
+	stroke: #4C8BF5;
+	stroke-width: 2;
+}
+.Engineline3{
+	fill: none;
+	stroke: #ff4242;
+	stroke-width: 2;
+}
+.line2a {
+    fill: none;
+    stroke: #4C8BF5;
+    stroke-width: 1;
+}
+
+.line2b {
+    fill: none;
+    stroke: red;
+    stroke-width: 1;
+}
+
+.line2c {
+    fill: none;
+    stroke: green;
+    stroke-width: 1;
+}
+
+.line2d {
+    fill: none;
+    stroke: purple;
+    stroke-width: 1;
+}
+
+/* Style the dots by assigning a fill and stroke */
+.dot {
+    fill: #4C8BF5;
+    stroke: #fff;
+}
+.dot2 {
+    fill: #F59727;
+    stroke: #fff;
+}
+
+
+.bar{background-color: #4C8BF5; color:#4C8BF5;fill:#4C8BF5;}
+#warningPieChart{display: inline-block;position: relative;top:-25px;}
+#warningChartLabels{display: inline-block;position: relative;top:-110px;left:0px;}
+#KPIMiddle{flex: 0 0 200px;}
+#alertPieChart{position: relative;left:-40px;}
+#fleetWarningPieChart,#warningLegend,#alertPieChart,#alertLegend{display: inline-block;}
+#alertLeft{flex: 0 0 400px;}
+#alertLegend,#warningLegend{position: relative;top:-150px;left:-50px;}
+#warningLegend{left:-20px;}
+#graphsLeft{flex: 0 0 450px;}
+#warningLegend{left:-10px;top:-81px;}
+#form2,#form3,#form4{display: none}
+#eventTypeChart,#eventLegend{display: inline-block;}
+#diagnosticsPage{display: none;}
+#eventLegend{position: relative;top:-150px;}
+form{left:1250px;top:270px;}
+
+.predictiveGearKPI,.predictiveBoostKPI,.predictivePayloadKPI{display:none;}
+.gearRawKPI,.payloadRawKPI,.engineRawKPI,.boostRawKPI,.bodyRawKPI,.brakeRawKPI{display: none;}
+.hidden,#form4,#form1,#form2,#form3{display: none}
+.colour1{background-color: #393b79}
+.colour2{background-color: #5254a3}
+.colour3{background-color: #6b6ecf}
+.colour4{background-color: #9c9ede}
+.colour5{background-color: #637939}
+.colour6{background-color: #8ca252}
+.colour7{background-color:#b5cf6b}
+.colour8{background-color: #3182bd}
+.colour9{background-color: #6baed6}
+.colour10{background-color: #9ecae1}
+.colour11{background-color: #c6dbef}
+.colour12{background-color: #e6550d}
+.colour13{background-color: #fd8d3c}
+.colour14{background-color:#fdae6b}
+
+#eventChartLabel{position: absolute;
+top: 155px;
+left: 90px;
+font-family: RobotoTwo;
+text-align: center;
+font-weight: bold;
+font-size: 0.8em;}#assetRight,.KPITitle{position: relative}.warningNum{color: #4C8BF5;
+position: absolute;
+top: 140px;
+left: 108px;
+font-size: 3em;}
+.rawGear,.rawBodypos,.rawBoost,.rawEngine,.rawPayload{
+	display: none
+}
+#fleetPage,#rawDataPage{position: relative;top:-50px;}
+#rawDataDiv{position: relative;top:-40px;}
+#table{height:152px;}
+select:hover,#fleetOverview:hover,#vehicleOverview:hover,#rawData:hover,.dataBlock:hover,#uptake:hover{
+cursor: pointer
+}
+/*#grey{position: fixed;width:100vw;height:100vh;background-color: #555;opacity:0.7;}
+#loading{position: fixed;top:50%;left:50%;width:500px;height:200px;font-size:5em;font-family:RobotoTwo;font-weight:bold;text-align: center;padding:50px;background-color: #ffe;border-radius: 8px;transform:translateX(-50%) translateY(-50%);}*/
+#uptakePage{display: none;
+    display: none;
+    z-index: 3;
+    position: absolute;
+    top: 150px;
+    left: 200px;
+}
+.dataTables_wrapper{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.rawBrakes,.rawEH,.predictiveEH{display:none}
+.predictiveEH{position:relative;left:20px}
+		</style>
+	</head>
+	<body>
+
+
+<div id="notificationWindow">
+<div style="text-align:right;margin:10px;width:95%"><div id="closeNotificationWindow">X</div></div>
+   <div class="criticalN notification">!! Critical !!<br/>Engine RPM anomaly detected - prompt action recommended</div>
+   <div class="warningN notification">2 Tire Pressure Warnings</div>
+   <div class="warningN notification">5 Brake Temperature Warnings</div>
+   <div class="snoozed notification">Snoozed 20 alerts based on your previous snooze history - to change the setting <span class="clickHere">click here</span></div>
+</div>
+<style>
+   #notificationWindow { width: 360px; height: 350px; background-color: #FFF; border: 1px solid #CCC; border-radius: 8px; position: fixed; z-index: 2; left:830px; top: 50px; display: none; }
+   .notification { width: 95%; margin: 10px; border-radius: 4px; font-family: RobotoTwo; font-weight: bold; padding:10px;cursor: pointer}
+   .criticalN { background-color:#EA5533; color:white}
+   .warningN { background-color: #fdae6b; }
+   .snoozed { background-color: #4F9F62; color:white}
+   .clickHere { color:yellow; cursor:pointer;}
+#bell{cursor:pointer}
+#closeNotificationWindow{cursor:pointer;font-family:RobotoTwo;display:inline;font-weight:bold;user-select: none}
+</style>
+
+		<!--		Side bar html		-->
+
+		<div id="sidebar"></div>
+		<div id="logo">&nbsp;</div>
+		<div id="vehicleOverviewBox"></div>
+		<div id="fleetV"></div>
+		<svg id="fleetV1" width="10" height="26" viewBox="0 0 10 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M9.84204 1H1.49994C1.22379 1 0.999935 1.22386 0.999935 1.5V24.5C0.999935 24.7761 1.22379 25 1.49994 25H9.84204" stroke="white" stroke-width="1.75"/>
+		</svg>
+		<svg id="fleetV2" width="17" height="26" viewBox="0 0 17 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M1 1H0.125V0.125H1V1ZM1 25V25.875H0.125V25H1ZM1.875 1V25H0.125V1H1.875ZM1 24.125H15.5V25.875H1V24.125ZM15.5 1.875H1V0.125H15.5V1.875ZM15.125 24.5V1.5H16.875V24.5H15.125ZM15.5 24.125C15.2929 24.125 15.125 24.2929 15.125 24.5H16.875C16.875 25.2594 16.2594 25.875 15.5 25.875V24.125ZM15.5 0.125C16.2594 0.125 16.875 0.740607 16.875 1.5H15.125C15.125 1.70711 15.2929 1.875 15.5 1.875V0.125Z" fill="white"/>
+		</svg>
+		<svg id="fleetV3" width="15" height="2" viewBox="0 0 15 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 1H15" stroke="white" stroke-width="1.75"/>
+		</svg>
+		<div id="fleetOverview">Fleet Overview</div>
+		<div id="vehicleV">
+			<svg width="26" height="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M16.1579 1.43396H24.5C24.7761 1.43396 25 1.65782 25 1.93396V19.5C25 19.7761 24.7761 20 24.5 20H21.2105M1 11.8491V19.5C1 19.7761 1.22386 20 1.5 20H5.73684H7.31579M7 20H21.5" stroke="white" stroke-width="1.75"/>
+			</svg>
+		</div>
+		<svg id="vehicleV2" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M16.1579 16.8491V17.7241H17.0329V16.8491H16.1579ZM1 16.8491H0.125V17.7241H1V16.8491ZM15.2829 2V16.8491H17.0329V2H15.2829ZM16.1579 15.9741H1V17.7241H16.1579V15.9741ZM1.5 1.875H15.1579V0.125H1.5V1.875ZM1.875 16.8491V1.5H0.125V16.8491H1.875ZM17.0329 2C17.0329 0.964466 16.1934 0.125 15.1579 0.125V1.875C15.2269 1.875 15.2829 1.93096 15.2829 2H17.0329ZM1.5 0.125C0.740609 0.125 0.125 0.740608 0.125 1.5H1.875C1.875 1.70711 1.70711 1.875 1.5 1.875V0.125Z" fill="white"/>
+		</svg>
+		<div id="vehicleOverview">
+			Vehicle Overview
+		</div>
+		<div style="position: relative;">
+			<div id="rawDataV">
+				<svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M21.6252 7.31554L21.8189 7.20661L21.6252 7.09764L12.0614 1.71792L12.0001 1.68345L11.9389 1.71792L2.37482 7.09764L2.18109 7.20661L2.37484 7.31554L11.9389 12.6929L12.0001 12.7273L12.0614 12.6929L21.6252 7.31554ZM1.68515 8.46758L1.49889 8.36285V8.57654V19.3365V19.4096L1.5626 19.4454L11.1269 24.8253L11.3132 24.9301V24.7164V13.9541V13.881L11.2495 13.8451L1.68515 8.46758ZM12.6871 24.7164V24.9301L12.8734 24.8253L22.4374 19.4455L22.5011 19.4097V19.3366V8.57659V8.3629L22.3149 8.46763L12.7508 13.8451L12.6871 13.881V13.9541V24.7164ZM11.5712 0.384716C11.8375 0.234889 12.1628 0.234891 12.4291 0.38472L23.429 6.5722C23.7045 6.72718 23.875 7.01872 23.875 7.33483V19.6651C23.875 19.9812 23.7045 20.2727 23.429 20.4277L12.4291 26.6152C12.1628 26.7651 11.8375 26.7651 11.5712 26.6152L0.571023 20.4277C0.295505 20.2727 0.125 19.9812 0.125 19.6651V7.33484C0.125 7.01872 0.295506 6.72718 0.571025 6.57221L11.5712 0.384716Z" fill="white" stroke="white" stroke-width="0.25"/>
+				</svg>
+			</div>
+			<div id="rawData">Engine Overview</div>
+		</div>
+
+<div id="benchmarkSVG">
+		<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1" fill="white">
+<rect width="26" height="26" rx="1.5"/>
+</mask>
+<rect width="26" height="26" rx="1.5" stroke="white" stroke-width="3.5" mask="url(#path-1-inside-1)"/>
+</svg>
+</div>
+			<div id="benchmarks">Overview</div>
+
+<div id="diagnosticsSVG">
+	<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<mask id="path-1-inside-1" fill="white">
+			<rect width="26" height="26" rx="1.5"/>
+		</mask>
+		<rect x="5.5" y="5.5" width="15" height="15" rx="1.5" stroke="white" stroke-width="2.5" mask="url(#path-1-inside-1)"/>
+		<rect width="26" height="26" rx="1.5" stroke="white" stroke-width="3.5" mask="url(#path-1-inside-1)" fill-opacity="0"/>
+	</svg>
+</div>
+<div id="diagnostics">Diagnostics</div>
+
+<div id="marketplaceSVG">
+	<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<mask id="path-1-inside-1" fill="white">
+			<rect width="26" height="26" rx="1.5"/>
+		</mask>
+		<circle cx="13" cy="-8" r="20" stroke="white" stroke-width="2.5" mask="url(#path-1-inside-1)" fill-opacity="0" />
+		<rect width="26" height="26" rx="1.5" stroke="white" stroke-width="3.5" mask="url(#path-1-inside-1)" fill-opacity="0"/>
+	</svg>
+</div>
+<div id="marketplace">Marketplace</div>
+
+
+		<div id="uptakeLogo"><img src="./uptakeLogo.png"></div>
+		<div id="uptake">Uptake</div>
+		<svg  id="vector4" width="147" height="2" viewBox="0 0 147 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 1H147" stroke="white" stroke-width="0.5"/>
+		</svg>
+		<div id="logoutVector">
+			<div id="logoutV1">
+				<div id="logoutV1a">
+					<svg id="logoutV1av" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M16.703 6.29033L10.6431 0.310253C10.2524 -0.076466 9.62056 -0.0714505 9.23384 0.320237C8.84712 0.711924 8.85111 1.34281 9.24383 1.72953L13.5744 6.00327H1.97004C1.41889 6.00327 0.973389 6.44877 0.973389 6.99992C0.973389 7.55108 1.41889 7.99663 1.97004 7.99663H13.5744L9.24383 12.2704C8.85115 12.6571 8.84815 13.288 9.23384 13.6797C9.42917 13.877 9.68633 13.9767 9.94348 13.9767C10.1967 13.9767 10.4498 13.881 10.6431 13.6896L16.703 7.70952C16.8923 7.52216 17 7.26697 17 6.99988C17 6.73288 16.8933 6.47872 16.703 6.29033Z" fill="white"/>
+					</svg>
+				</div>
+			</div>
+			<div id="logoutV2">
+				<div id="logoutV2a">
+					<svg width="13" height="24" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M11.9602 21.9668H2.99002C2.43984 21.9668 1.99336 21.5203 1.99336 20.9702V3.02992C1.99336 2.47975 2.43989 2.03326 2.99002 2.03326H11.9602C12.5113 2.03326 12.9568 1.58776 12.9568 1.03661C12.9568 0.48545 12.5113 0.039856 11.9602 0.039856H2.99002C1.34152 0.039856 0 1.38142 0 3.02992V20.9701C0 22.6186 1.34152 23.9601 2.99002 23.9601H11.9602C12.5113 23.9601 12.9568 23.5146 12.9568 22.9635C12.9568 22.4123 12.5113 21.9668 11.9602 21.9668Z" fill="white"/>
+					</svg>
+				</div>
+			</div>
+		</div>
+		<div id="logout">Log Out</div>
+
+		<!--		End Side Bar		-->
+
+		<div id="overview">Vehicle Overview</div>
+		<div id="assetID">A247F2</div>
+		<svg id="assetArrow" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.5 6L10.2631 0H0.73686L5.5 6Z" fill="#999"/>
+</svg>
+		<div id="selectDate">&nbsp;</div>
+
+			<div id="selectDateText">
+				Select Date
+			</div>
+<svg id="dateArrow" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.5 6L10.2631 0H0.73686L5.5 6Z" fill="#999"/>
+</svg>
+
+
+<svg id="bell" width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.40419 3.34314C5.05785 3.34314 1.52197 6.87901 1.52197 11.2254V19.5968H3.15275V11.2254C3.15275 7.77841 5.95691 4.97392 9.40419 4.97392C12.8515 4.97392 15.6556 7.77836 15.6556 11.2254V19.5968H17.2865V11.2254C17.2864 6.87901 13.7505 3.34314 9.40419 3.34314Z" fill="black"/>
+<path d="M18.2106 18.7814H0.81539C0.365015 18.7814 0 19.1464 0 19.5968C0 20.0471 0.365015 20.4122 0.81539 20.4122H18.2107C18.661 20.4122 19.026 20.0471 19.026 19.5968C19.026 19.1464 18.661 18.7814 18.2106 18.7814Z" fill="black"/>
+<path d="M9.40436 0C8.02553 0 6.90381 1.12172 6.90381 2.50055C6.90381 3.87937 8.02553 5.00109 9.40436 5.00109C10.7832 5.00109 11.9049 3.87937 11.9049 2.50055C11.9049 1.12172 10.7832 0 9.40436 0ZM9.40436 3.37031C8.93279 3.37031 8.53459 2.97188 8.53459 2.50055C8.53459 2.02898 8.93279 1.63078 9.40436 1.63078C9.87592 1.63078 10.2741 2.02898 10.2741 2.50055C10.2741 2.97211 9.87592 3.37031 9.40436 3.37031Z" fill="black"/>
+<path d="M10.8176 19.5969V21.0102C10.8176 21.7596 10.2079 22.3692 9.45858 22.3692C8.70923 22.3692 8.09958 21.7596 8.09958 21.0102V19.5969H6.46875V21.0102C6.46875 22.6587 7.81008 24.0001 9.45858 24.0001C11.107 24.0001 12.4484 22.6587 12.4484 21.0102V19.5969H10.8176Z" fill="black"/>
+</svg>
+
+
+			<div id="toscaDivider"><svg width="2" height="42" viewBox="0 0 2 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 0V42" stroke="black" stroke-width="0.5"/>
+</svg>
+</div>
+<div id="miner">&nbsp;</div>
+<div id="magnify">&nbsp;</div>
+
+			<div id="Tosca">Tosca Mining</div>
+<svg id="exportIcon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5251 1.25949H15.8482L8.25092 8.86047C8.0049 9.10649 8.0049 9.50673 8.25092 9.75275C8.3721 9.87393 8.53366 9.93635 8.69523 9.93635C8.8568 9.93635 9.01836 9.87393 9.13954 9.75275L16.7405 2.15177V5.47491C16.7405 5.82375 17.0233 6.10649 17.3684 6.10649C17.7173 6.10649 18 5.82375 18 5.47491V0.631579C18 0.282742 17.7173 0 17.3684 0H12.5251C12.1763 0 11.8935 0.282742 11.8935 0.631579C11.8972 0.976744 12.1763 1.25949 12.5251 1.25949Z" fill="black"/>
+<path d="M3.77846 18H14.2179C16.3036 18 17.9963 16.3035 17.9963 14.2215V9.30477C17.9963 8.95594 17.7136 8.67687 17.3647 8.67687C17.0159 8.67687 16.7368 8.95961 16.7368 9.30477V14.2179C16.7368 15.6059 15.6059 16.7368 14.2179 16.7368H3.77846C2.39045 16.7368 1.25949 15.6059 1.25949 14.2179V5.92656V3.78213C1.25949 2.39412 2.39045 1.26316 3.77846 1.26316H8.65116C9 1.26316 9.27907 0.980416 9.27907 0.631579C9.27907 0.282742 8.99633 0 8.65116 0H3.77846C1.69278 0 0 1.69645 0 3.77846V5.92289V14.2179C0 16.3036 1.69645 18 3.77846 18Z" fill="black"/>
+</svg>
+
+			<div id="exportData">Export Data</div>
+			<div id="body">
+<style>.bigRow{height:400px;}
+.benchmarkTable td,.benchmarkTable th{padding:10px;}
+.leftLabel,.rightLabel{width:49%;font-family: RobotoTwo;padding:10px;display: inline-block;margin:10px 0px;}
+.app{
+
+    width:200px;
+    height:200px;
+    display:inline-block;
+    margin:20px;
+    border: 0.5px solid #999;
+    border-radius: 8px;
+}
+#market{text-align:center;
+width: 100%;
+    height: 174px;
+}
+</style>
+
+
+				<div id="benchmarkPage">
+					<div class="dataRow bigRow" id="fuelConsumptionRate">
+						<div class="KPITitle">Fuel Consumption Rate</div>
+					</div>
+					<div class="dataRow" style="height:415px">
+						<div class="KPITitle">Fuel Consumption</div>
+						<div class="fuelLabels">
+							<div class="leftLabel">Operator</div>
+							<div class="rightLabel">Vehicle</div>
+						</div>
+							<div style="width:25%;background-color: #4C8BF5;display: inline-block;padding:10px;font-family:RobotoTwo;">Top Performers</div><div style="width:25%;background-color: #EA5533;display: inline-block;padding:10px;font-family:RobotoTwo;">Worst Performers</div><div style="width:25%;background-color: #4C8BF5;display: inline-block;padding:10px;font-family:RobotoTwo;">Top Performers</div><div style="width:25%;background-color: #EA5533;display: inline-block;padding:10px;font-family:RobotoTwo;">Worst Performers</div>
+						<table class="benchmarkTable" style="width:25%;display: inline-table;margin:0px;border-right: 1px solid #ccc">
+							<thead >
+								<tr style="border-bottom:1px solid #CCC;border-collapse: collapse"><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Name</th><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Fuel Consumption</th></tr>
+							</thead>
+							<tbody>
+								<tr><td class="left">Julie</td><td>87 litres/day</td></tr>
+								<tr><td class="left">Sid</td><td>89 litres/day</td></tr>
+								<tr><td class="left">Natali</td><td>93 litres/day</td></tr>
+								<tr><td class="left">Li</td><td>96 litres/day</td></tr>
+								<tr><td class="left">Kevin</td><td>101 litres/day</td></tr>
+							</tbody>
+						</table><table class="benchmarkTable" style="width:25%;display: inline-table;margin:0px;border-right: 1px solid #ccc">
+							<thead >
+								<tr style="border-bottom:1px solid #CCC;border-collapse: collapse"><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Name</th><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Fuel Consumption</th></tr>
+							</thead>
+							<tbody>
+								<tr><td class="left">Kevin</td><td>101 litres/day</td></tr>
+								<tr><td class="left">Li</td><td>96 litres/day</td></tr>
+								<tr><td class="left">Natali</td><td>93 litres/day</td></tr>
+								<tr><td class="left">Sid</td><td>89 litres/day</td></tr>
+								<tr><td class="left">Julie</td><td>87 litres/day</td></tr>
+							</tbody>
+						</table><table class="benchmarkTable" style="width:25%;display: inline-table;margin:0px;border-right: 1px solid #ccc">
+							<thead >
+								<tr style="border-bottom:1px solid #CCC;border-collapse: collapse"><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Name</th><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Fuel Consumption</th></tr>
+							</thead>
+							<tbody>
+								<tr><td class="left">A247F2</td><td>87 litres/day</td></tr>
+								<tr><td class="left">A25193</td><td>89 litres/day</td></tr>
+								<tr><td class="left">B75</td><td>93 litres/day</td></tr>
+								<tr><td class="left">A248I3</td><td>96 litres/day</td></tr>
+								<tr><td class="left">A248I4</td><td>101 litres/day</td></tr>
+							</tbody>
+						</table><table class="benchmarkTable" style="width:25%;display: inline-table;margin:0px;border-right: 1px solid #ccc">
+							<thead >
+								<tr style="border-bottom:1px solid #CCC;border-collapse: collapse"><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Name</th><th style="border-bottom:1px solid #CCC;border-collapse: collapse">Fuel Consumption</th></tr>
+							</thead>
+							<tbody>
+								<tr><td class="left">A248I4</td><td>101 litres/day</td></tr>
+								<tr><td class="left">A248I3</td><td>96 litres/day</td></tr>
+								<tr><td class="left">B75</td><td>93 litres/day</td></tr>
+								<tr><td class="left">A25193</td><td>89 litres/day</td></tr>
+								<tr><td class="left">A247F2</td><td>87 litres/day</td></tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div class="dataRow" id="idleTime" style="height:370px;">
+						<div class="KPITitle">Idle Timing</div>
+						<div class="fuelLabels">
+							<div class="leftLabel">Operator</div>
+							<div class="rightLabel">Vehicle</div>
+						</div>
+					</div>
+				</div>
+
+<div id="marketplacePage">
+
+				<div id="market">
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Schneider Electric</div>
+              <img src="./schneider.png" style="position:relative;top:10px">
+              </div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Cyngn</div>
+              <img src="./cyngn.png"  style="position:relative;top:0px"></div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Uptake</div>
+              <img src="./uptake2.png" style="position:relative;top:0px"></div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Vale</div>
+              <img src="./vale.png"  style="position:relative;top:20px"></div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Siemens</div>
+              <img src="./siemens.png"  style="position:relative;top:40px"></div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Nokia</div>
+              <img src="./nokia.png"  style="position:relative;top:50px"></div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">ABB</div>
+              <img src="./abb.png"  style="position:relative;top:30px"></div>
+          <div class="app">
+							<div id="alertLeftLabel" style="text-align:left;margin:10px;display:block">Verizon</div>
+              <img src="./verizon.png"  style="position:relative;top:40px"></div>
+        </div>
+</div>
+
+				<div id="vehiclePage">
+				<div id="topData">
+					<div id="machineHours">
+						<div class="dataLeft">
+							<div class="dataTitle">Total Machine Hours</div>
+							<div class="dataDate">Today</div>
+						</div>
+						<div class="dataRight">
+							<div class="dataNum">1</div>
+							<div class="dataUnit">Hrs</div>
+						</div>
+					</div>
+					<div id="totalFuel">
+						<div class="dataLeft">
+							<div class="dataTitle">Total Fuel Used</div>
+							<div class="dataDate">Today</div>
+						</div>
+						<div class="dataRight">
+							<div class="dataNum">100</div>
+							<div class="dataUnit">Liters</div>
+						</div></div>
+					<div id="timeSinceLastMaintenance">
+						<div class="dataLeft">
+							<div class="dataTitle">Time Since Last Maintenance</div>
+							<div class="dataDate">Today</div>
+						</div>
+						<div class="dataRight">
+							<div class="dataNum">5</div>
+							<div class="dataUnit">Days</div>
+						</div></div>
+				</div>
+				<div class="dataRow" id="assetInfo">
+					<div id="assetLeft">
+						<div id="assetTitle">A247F2</div>
+						<div id="assetImg"><img src="./truck.jpeg"></div>
+					</div>
+					<div id="assetMiddle">
+						<div class="assetBio"><div class='bioLeft'>Make</div><div class='bioRight'>CAT</div></div>
+						<div class="assetBio"><div class='bioLeft'>Model</div><div class='bioRight'>795F</div></div>
+						<div class="assetBio"><div class='bioLeft'>Asset Year</div><div class='bioRight'>2015</div></div>
+						<div class="assetBioBottom"></div>
+					</div>
+					<div id="assetRight">
+							<div id="EventTypeLabel">Event Type</div>
+						<div id="eventTypeChart"></div>
+						<div id="eventChartLabel">Total Event Types<br/>4</div>
+						<div id="eventLegend">
+							<div class="legend">
+								<div class="legendRow"><div class="legendCircle colour8"></div><div class="legendLabel">Oil Low</div></div>
+								<div class="legendRow"><div class="legendCircle colour10"></div><div class="legendLabel">Over Speed Limit</div></div>
+								<div class="legendRow"><div class="legendCircle colour12"></div><div class="legendLabel">Brake Temp High</div></div>
+								<div class="legendRow"><div class="legendCircle colour14"></div><div class="legendLabel">Body Up While Moving</div></div>
+							</div></div>
+					</div>
+				</div>
+				<!-- raw data graph goes below  -->
+				<div class="dataRow" id="rawDataGraphContainer">
+					<div class="rawDataSelectors">
+						<div style="font-weight: bold; font-family: RobotoTwo;    margin-right: 10px; margin-top: 6px;">Raw Data Analysis</div>
+						<select id="rawAssetsDropdown">
+							<option value="symbotE400140">A247F2</option>
+							<option value="symbotE400141">A247F3</option>
+							<option value="symbotE400143">A248I3</option>
+						</select>
+						<select id="rawDropdown" autocomplete="off" style="margin-left: 10px;">
+							<option value="groundSpeed" selected>Ground Speed</option>
+							<option value="engineHours">Engine Hours</option>
+							<option value="bodyPosistion">Body Position</option>
+							<option value="rpm">Engine RPM</option>
+							<option value="oilPressure">Oil Pressure</option>
+						</select>
+					</div>
+					<div id="rawDataDiv"><div id="rawDataChart"></div></div>
+
+				</div>
+				<img src="./mapPic2.JPG" width="100%" style="margin-top:18px">
+
+
+				<div class="dataRow" id="KPIs">
+					<div id="KPILeft">
+						<div class="KPITitle">Warnings <span class='warningNum'>7</span></div>
+						<div class="KPIDropdown">
+							<!--select>
+								<option>a</option>
+								<option>a</option>
+								<option>a</option>
+							</select-->
+						</div>
+						<div id="warningPieChart"></div>
+						<div id="warningChartLabels">
+							<div class="legend">
+								<div class="legendRow"><div class="legendCircle colour8"></div><div class="legendLabel">Brakes</div></div>
+								<div class="legendRow"><div class="legendCircle colour9"></div><div class="legendLabel">Speed</div></div>
+								<div class="legendRow"><div class="legendCircle colour10"></div><div class="legendLabel">Gear</div></div>
+								<div class="legendRow"><div class="legendCircle colour11"></div><div class="legendLabel">Body Position</div></div>
+								<div class="legendRow"><div class="legendCircle colour12"></div><div class="legendLabel">Boost Pressure</div></div>
+								<div class="legendRow"><div class="legendCircle colour13"></div><div class="legendLabel">Engine RPM</div></div>
+								<div class="legendRow"><div class="legendCircle colour14"></div><div class="legendLabel">Payload</div></div>
+							</div>
+						</div>
+					</div>
+					<div id="KPIMiddle">
+						<div class="KPITitle">Predictive KPIs</div>
+						<div class="KPIDropdown">
+							<select id="KPIDropdown" autocomplete="off">
+								<option value="gear">Body Position vs. Movement</option>
+								<option value="speed" selected>Ground Speed vs. Current Gear</option>
+								<option value="eh">Engine Hours</option>
+								<option value="fc">Fuel Consumption</option>
+								<option value="payload">Payload</option>
+								<option value="boost">Boost Pressure vs. Engine RPM</option>
+							</select>
+						</div>
+						<div id="predictiveKPIsChart"></div>
+					</div>
+					<div id="KPIRight">
+						<div class="KPITitle">Raw KPIs</div>
+						<div class="KPIDropdown">
+							<select id="rawKPIDropdown" autocomplete="off">
+								<option value="brake">Brake Temp</option>
+								<option value="gear">Current Gear</option>
+								<option value="speed" selected>Speed</option>
+								<option value="body">Body Position</option>
+								<option value="boost">Boost Pressure</option>
+								<option value="engine">Engine RPM</option>
+								<option value="payload">Payload</option>
+							</select>
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>Time</th>
+									<th>Data</th>
+								</tr>
+							</thead>
+							<tbody id="rawKPIs"></tbody>
+						</table>
+					</div>
+				</div>
+				<div class="dataRow" id="alerts">
+					<div id="alertLeft">
+						<div id="alertLeftTitle">
+							<div id="alertLeftLabel">Alerts</div>
+							<!--select>
+								<option>a</option>
+								<option>a</option>
+								<option>a</option>
+							</select-->
+							<div id="alertClearFilter" style="color:transparent;">Clear Filter</div>
+							<div id="alertPieChart"></div>
+							<div id="alertLegend">
+							<div class="legend">
+								<div class="legendRow"><div class="legendCircle colour1"></div><div class="legendLabel">Body Up</div></div>
+								<div class="legendRow"><div class="legendCircle colour2"></div><div class="legendLabel">Braking</div></div>
+								<div class="legendRow"><div class="legendCircle colour3"></div><div class="legendLabel">Speed</div></div>
+							</div></div>
+						</div>
+					</div>
+					<div id="alertRight">
+						<div id="alertRightTitle">
+							<div id="alertRightLabel">Alerts Over Time</div>
+						</div>
+						<div id="alertsOverTime"></div>
+					</div>
+				</div>
+			</div>
+      <style>
+        #healthBar{display:flex;padding:0px;overflow:hidden}
+        #greenHealth{border-radius-top-left:8px;background: #55A954;flex:2 2 auto;height:100%;padding-top:8px;padding-right:12px;}
+        #yellowHealth{background: #F19933;;flex:1 1 auto;height:100%;padding-top:8px;padding-right:12px;}
+        #redHealth{background: #EA5533;;flex:1 1 auto;height:100%;padding-top:8px;padding-right:12px;}
+      </style>
+      <div id="fleetPage">
+				<div class="dataRow" id="health">
+
+					<div id="healthLeft"><div id="healthLabel">Assets</div><div id="healthBar"><div id="greenHealth">2</div><div id="yellowHealth">1</div><div id="redHealth">1</div></div></div>
+					<div id="healthRight">
+						<div id="healthy"><div id="circleGreen"></div>Healthy</div>
+						<div id="warning"><div id="circleYellow"></div>Warning</div>
+						<div id="critical"><div id="circleRed"></div>Critical</div>
+					</div>
+				</div>
+				<div class="dataRow" id="table">
+					<div id="criticalLabel">Critical</div>
+					<table style="width:100%">
+						<thead>
+							<tr>
+								<th>Asset ID</th>
+								<th>Type</th>
+								<th>Failure Rate</th>
+								<th>Time</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td class="left">A247F3</td><td>Brake</td><td>15%</td><td>March 31 1:22AM</td><td>Brake oil temperature critically low</td></tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="dataRow" id="graphs">
+					<div id="graphsLeft">
+						<div id="graphsLeftLabel">Warnings</div>
+						<div id="fleetWarningPieChart"></div>
+						<div id="warningLegend">
+							<div class="legend">
+								<div class="legendRow"><div class="legendCircle colour1"></div><div class="legendLabel">Brakes</div></div>
+								<div class="legendRow"><div class="legendCircle colour2"></div><div class="legendLabel">Speed</div></div>
+								<div class="legendRow"><div class="legendCircle colour3"></div><div class="legendLabel">Gear</div></div>
+								<div class="legendRow"><div class="legendCircle colour4"></div><div class="legendLabel">Body Position</div></div>
+								<div class="legendRow"><div class="legendCircle colour5"></div><div class="legendLabel">Boost Pressure</div></div>
+								<div class="legendRow"><div class="legendCircle colour6"></div><div class="legendLabel">Engine RPM</div></div>
+								<div class="legendRow"><div class="legendCircle colour7"></div><div class="legendLabel">Payload</div></div>
+							</div></div>
+					</div>
+					<div id="graphsRight">
+						<div id="graphsRightLabel">KPIs</div>
+						<div id="fleetKPIsChart"></div>
+					</div>
+				</div>
+				<div class="dataRow" id="bars">
+					<div id="barsLabel">Total Payload</div>
+					<div id="metricsChart"></div>
+				</div>
+				<div id="dataBlocks">
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Brake Temperature</div>
+							<div class="dataBlockSubtitle">Front Left</div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Ground Speed</div>
+							<div class="dataBlockSubtitle"></div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Current Gear</div>
+							<div class="dataBlockSubtitle"></div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Body Position</div>
+							<div class="dataBlockSubtitle">Tilted Up/Down</div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Payload</div>
+							<div class="dataBlockSubtitle"></div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Boost Pressure</div>
+							<div class="dataBlockSubtitle"></div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+					<div class="dataBlock">
+						<div class="dataBlockLeft">
+							<div class="dataBlockTitle">Engine RPM</div>
+							<div class="dataBlockSubtitle"></div>
+						</div>
+						<div class="dataBlockRight">
+							<svg class="arrow" width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M28.7071 8.70711C29.0976 8.31658 29.0976 7.68342 28.7071 7.29289L22.3431 0.928932C21.9526 0.538408 21.3195 0.538408 20.9289 0.928932C20.5384 1.31946 20.5384 1.95262 20.9289 2.34315L26.5858 8L20.9289 13.6569C20.5384 14.0474 20.5384 14.6805 20.9289 15.0711C21.3195 15.4616 21.9526 15.4616 22.3431 15.0711L28.7071 8.70711ZM0 9L28 9V7L0 7L0 9Z" fill="#4C8BF5"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+</div>
+	<div id="rawDataPage">
+		<img src="./maintenceGraph.JPG" width="100%" style="padding-top: 30px">
+		<div class="dataRow" style="height: 400px">
+			<div id="engineRawData"></div>
+		</div>
+		<div class="dataRow" style="height: 550px">
+			<table id="engineRawTable" class="engineRawTable" >
+				<thead>
+					<tr><th>Vehicle</th><th>Tag</th><th>Time</th><th>Value</th><th>Graph</th></tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+	<div id="diagnosticsPage">
+		<img src="./3dPic.JPG" width="100%" style="padding-top: 30px">
+	</div>
+			</div>
+			<form id="form1"></form>
+			<form id="form2"></form>
+			<form id="form3"></form>
+			<form id="form4"></form>
+			<div id="uptakePage">
+				<img src="./uptake.png">
+			</div>
+<div id="grey"></div>
+<div id="loading">Loading...</div>
+
+<!--		Start Of D3 Scripts		-->
+<script src="./d3.v4.min.js"></script>
+<script>
+
+  var myDuration = 600;
+  var firstTime = true;
+
+  var width = 280,
+  height = 280,
+  radius = Math.min(width, height) / 2;
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+  var color2 = d3.scaleOrdinal(d3.schemeCategory20b);
+  var color3 = d3.scaleOrdinal(d3.schemeCategory20c);
+  var color4 = d3.scaleOrdinal(d3.schemeCategory20b);
+  var pie = d3.pie()
+  .value(function(d) { return d.count; })
+  .sort(null);
+
+
+  var arc1 = d3.arc()
+  .innerRadius(radius - 35)
+  .outerRadius(radius - 85);
+
+    var arc2 = d3.arc()
+  .innerRadius(radius - 25)
+  .outerRadius(radius - 95);
+
+  var arcW = d3.arc()
+  .innerRadius(radius - 35)
+  .outerRadius(radius - 85);
+
+
+  var arc = d3.arc()
+  .innerRadius(radius - 45)
+  .outerRadius(radius - 75);
+
+
+  var svg = d3.select("#eventTypeChart").append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .append("g")
+  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  var svg2 = d3.select("#alertPieChart").append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .append("g")
+  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  var svg3 = d3.select("#warningPieChart").append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .append("g")
+  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  var svg4 = d3.select("#fleetWarningPieChart").append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .append("g")
+  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+	var dataTSV = "region\tfruit\tcount\nEast\tCat1\t53245\nWest\tCat1\t28479\nSouth\tCat1\t19697\nNorth\tCat1\t24037\nCentral\tCat1\t40245\nEast\tCat2\t200\nSouth\tCat2\t300\nCentral\tCat2\t100\nWest\tCat2\t500";
+	//Vehicle overview Event type pie chart
+	d3.tsv("data.tsv", type, function(error, data) {
+		data = d3.tsvParse(dataTSV);
+		//console.log("a");
+		var regionsByFruit = d3.nest()
+		.key(function(d) { return d.fruit; })
+		.entries(data)
+		.reverse();
+
+		var label = d3.select("form").selectAll("label")
+		.data(regionsByFruit)
+		.enter().append("label");
+
+		label.append("input")
+		.attr("class","hidden")
+		.attr("type", "radio")
+		.attr("name", "fruit")
+		.attr("value", function(d) { return d.key; })
+		.on("change", change)
+		.filter(function(d, i) { return !i; })
+		.each(change)
+		.property("checked", true);
+
+		label.append("span")
+		.text(function(d) { return d.key; });
+
+
+		function change(region) {
+		var path = svg.selectAll("path");
+		var data0 = path.data(),
+		data1 = pie(region.values);
+
+		path = path.data(data1, key);
+
+		path
+		.transition()
+		.duration(myDuration)
+		.attrTween("d", arcTween)
+
+
+		path
+		.enter()
+		.append("path")
+		.each(function(d, i) {
+		var narc = findNeighborArc(i, data0, data1, key) ;
+		if(narc) {
+		this._current = narc;
+		this._previous = narc;
+		} else {
+		this._current = d;
+		}
+		})
+		.attr("fill", function(d,i) {
+		return color(d.data.region)
+		})
+		.transition()
+		.duration(myDuration)
+		.attrTween("d", arcTween)
+
+
+		path
+		.exit()
+		.transition()
+		.duration(myDuration)
+		.attrTween("d", function(d, index) {
+
+		var currentIndex = this._previous.data.region;
+		var i = d3.interpolateObject(d,this._previous);
+		return function(t) {
+		return arc(i(t))
+		}
+
+		})
+		.remove()
+
+
+		//firstTime = false;
+
+
+		}
+	});
+	var data3TSV= "region\tfruit\tcount\nEast\tCat2\t200\nSouth\tCat2\t300\nCentral\tCat2\t100";
+	//Alerts Pie Chart on Vehicle Overview
+  d3.tsv("data3.csv", type, function(error, data) {
+  	//console.log("a");
+		data = d3.tsvParse(data3TSV);
+    var regionsByFruit = d3.nest()
+    .key(function(d) { return d.fruit; })
+    .entries(data)
+    .reverse();
+
+    var label = d3.select("#form2").selectAll("label")
+    .data(regionsByFruit)
+    .enter().append("label");
+
+    label.append("input")
+    .attr("type", "radio")
+    .attr("name", "fruit")
+    .attr("value", function(d) { return d.key; })
+    .on("change", change2)
+    .filter(function(d, i) { return !i; })
+    .each(change2)
+    .property("checked", true);
+
+    label.append("span")
+    .text(function(d) { return d.key; });
+
+
+    function change2(region) {
+      var path = svg2.selectAll("path");
+      var data0 = path.data(),
+      data1 = pie(region.values);
+
+      path = path.data(data1, key);
+
+      path
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", arcTween1)
+
+
+      path
+      .enter()
+      .append("path")
+      .each(function(d, i) {
+        var narc = findNeighborArc(i, data0, data1, key) ;
+        if(narc) {
+          this._current = narc;
+          this._previous = narc;
+        } else {
+          this._current = d;
+        }
+      })
+      .attr("fill", function(d,i) {
+       return color2(d.data.region)
+     })
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", arcTween1)
+
+
+      path
+      .exit()
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", function(d, index) {
+
+        var currentIndex = this._previous.data.region;
+        var i = d3.interpolateObject(d,this._previous);
+        return function(t) {
+          return arc1(i(t))
+        }
+
+      })
+      .remove()
+
+
+      //firstTime = false;
+
+
+    }
+  });
+var data2TSV = "region\tfruit\tcount\nEast\tCat2\t200\nSouth\tCat2\t300\nCentral\tCat2\t100\nWest\tCat2\t500\nNorth\tCat2\t500\naabb\tCat2\t300\nbbccc\tCat2\t200";
+
+//Fleet Overview warning Pie Chart
+d3.tsv("data2.tsv", type, function(error, data) {
+	data = d3.tsvParse(data2TSV);
+  //	console.log("a");
+    var regionsByFruit = d3.nest()
+    .key(function(d) { return d.fruit; })
+    .entries(data)
+    .reverse();
+
+    var label = d3.select("#form3").selectAll("label")
+    .data(regionsByFruit)
+    .enter().append("label");
+
+    label.append("input")
+    .attr("type", "radio")
+    .attr("name", "fruit")
+    .attr("value", function(d) { return d.key; })
+    .on("change", change3)
+    .filter(function(d, i) { return !i; })
+    .each(change3)
+    .property("checked", true);
+
+    label.append("span")
+    .text(function(d) { return d.key; });
+
+
+    function change3(region) {
+      var path = svg3.selectAll("path");
+      var data0 = path.data(),
+      data1 = pie(region.values);
+
+      path = path.data(data1, key);
+
+      path
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", arcTween2)
+
+
+      path
+      .enter()
+      .append("path")
+      .each(function(d, i) {
+        var narc = findNeighborArc(i, data0, data1, key) ;
+        if(narc) {
+          this._current = narc;
+          this._previous = narc;
+        } else {
+          this._current = d;
+        }
+      })
+      .attr("fill", function(d,i) {
+       return color3(d.data.region)
+     })
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", arcTween2)
+
+
+      path
+      .exit()
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", function(d, index) {
+
+        var currentIndex = this._previous.data.region;
+        var i = d3.interpolateObject(d,this._previous);
+        return function(t) {
+          return arc2(i(t))
+        }
+
+      })
+      .remove()
+
+
+      //firstTime = false;
+
+
+    }
+  });
+
+
+//Also Fleet overview warning pie chart
+d3.tsv("data.tsv", type, function(error, data) {
+		data = d3.tsvParse(data2TSV);
+    var regionsByFruit = d3.nest()
+    .key(function(d) { return d.fruit; })
+    .entries(data)
+    .reverse();
+
+    var label = d3.select("#form4").selectAll("label")
+    .data(regionsByFruit)
+    .enter().append("label");
+
+    label.append("input")
+    .attr("type", "radio")
+   // .attr("name", "fruit")
+    .attr("value", function(d) { return d.key; })
+    .on("change", change4)
+    .filter(function(d, i) { return !i; })
+    .each(change4)
+    .property("checked", true);
+
+    label.append("span")
+    .text(function(d) { return d.key; });
+
+
+    function change4(region) {
+      var path = svg4.selectAll("path");
+      var data0 = path.data(),
+      data1 = pie(region.values);
+
+      path = path.data(data1, key);
+
+      path
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", arcTweenW)
+
+
+      path
+      .enter()
+      .append("path")
+      .each(function(d, i) {
+        var narc = findNeighborArc(i, data0, data1, key) ;
+        if(narc) {
+          this._current = narc;
+          this._previous = narc;
+        } else {
+          this._current = d;
+        }
+      })
+      .attr("fill", function(d,i) {
+       return color4(d.data.region)
+     })
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", arcTweenW)
+
+
+      path
+      .exit()
+      .transition()
+      .duration(myDuration)
+      .attrTween("d", function(d, index) {
+
+        var currentIndex = this._previous.data.region;
+        var i = d3.interpolateObject(d,this._previous);
+        return function(t) {
+          return arcW(i(t))
+        }
+
+      })
+      .remove()
+
+
+      //firstTime = false;
+
+
+    }
+  });
+
+
+
+  function key(d) {
+    return d.data.region;
+  }
+
+  function type(d) {
+    d.count = +d.count;
+    return d;
+  }
+
+  function findNeighborArc(i, data0, data1, key) {
+    var d;
+    if(d = findPreceding(i, data0, data1, key)) {
+
+      var obj = cloneObj(d)
+      obj.startAngle = d.endAngle;
+      return obj;
+
+    } else if(d = findFollowing(i, data0, data1, key)) {
+
+      var obj = cloneObj(d)
+      obj.endAngle = d.startAngle;
+      return obj;
+
+    }
+
+    return null
+
+
+  }
+
+// Find the element in data0 that joins the highest preceding element in data1.
+function findPreceding(i, data0, data1, key) {
+  var m = data0.length;
+  while (--i >= 0) {
+    var k = key(data1[i]);
+    for (var j = 0; j < m; ++j) {
+      if (key(data0[j]) === k) return data0[j];
+    }
+  }
+}
+
+// Find the element in data0 that joins the lowest following element in data1.
+function findFollowing(i, data0, data1, key) {
+  var n = data1.length, m = data0.length;
+  while (++i < n) {
+    var k = key(data1[i]);
+    for (var j = 0; j < m; ++j) {
+      if (key(data0[j]) === k) return data0[j];
+    }
+  }
+}
+function arcTween1(d) {
+
+  var i = d3.interpolate(this._current, d);
+
+  this._current = i(0);
+
+  return function(t) {
+    return arc1(i(t))
+  }
+
+}function arcTween2(d) {
+
+  var i = d3.interpolate(this._current, d);
+
+  this._current = i(0);
+
+  return function(t) {
+    return arc2(i(t))
+  }
+
+}
+function arcTween(d) {
+
+  var i = d3.interpolate(this._current, d);
+
+  this._current = i(0);
+
+  return function(t) {
+    return arc(i(t))
+  }
+
+}
+
+function arcTweenW(d) {
+
+  var i = d3.interpolate(this._current, d);
+
+  this._current = i(0);
+
+  return function(t) {
+    return arcW(i(t))
+  }
+
+}
+
+function cloneObj(obj) {
+  var o = {};
+  for(var i in obj) {
+    o[i] = obj[i];
+  }
+  return o;
+}
+
+
+
+
+
+
+
+
+
+
+let data = [{
+    start_date: "2015-09-04",
+    end_date: "2015-09-08",
+    points: 46.44
+  },{
+    start_date: "2015-09-08",
+    end_date: "2015-09-15",
+    points: 52.37
+  },{
+    start_date: "2015-09-15",
+    end_date: "2015-09-20",
+    points: 41.63
+  },{
+    start_date: "2015-09-20",
+    end_date: "2015-09-24",
+    points: 55.35
+  },{
+    start_date: "2015-09-24",
+    end_date: "2015-09-28",
+    points: 47.51
+  },{
+    start_date: "2015-09-28",
+    end_date: "2015-10-07",
+    points: 56.55
+  },{
+    start_date: "2015-10-07",
+    end_date: "2015-10-12",
+    points: 45.74
+  },{
+    start_date: "2015-10-12",
+    end_date: "2015-10-15",
+    points: 54.79
+  },{
+    start_date: "2015-10-15",
+    end_date: "2015-10-20",
+    points: 48.86
+  },{
+    start_date: "2015-10-20",
+    end_date: "2015-10-29",
+    points: 47.6
+  },{
+    start_date: "2015-10-29",
+    end_date: "2015-11-04",
+    points: 48.04
+}];
+
+ let margin = {
+       top: 20,
+       right: 20,
+       bottom: 30,
+       left: 50
+     },
+     width2 = 750 - margin.left - margin.right,
+     height2 = 250 - margin.top - margin.bottom;
+
+let parseDate = d3.timeParse("%Y-%m-%d"),
+    bisectDate = d3.bisector(d => d.start_date).left,
+    formatDate = d3.timeFormat("%d %b, %y"),
+    x = d3.scaleTime().range([0, width2]),
+    y = d3.scaleLinear().range([height2, 0]),
+    xAxis = d3.axisBottom().scale(x)
+              .tickSize(-height2, 0, 0)
+              .tickFormat(d => formatDate(d)),
+    yAxis = d3.axisLeft().scale(y)
+            .ticks(6)
+            .tickSize(-width2, 0, 0)
+            .tickFormat(d => d);
+
+data.forEach((d, i) => {
+  d.start_date = parseDate(d.start_date);
+  d.end_date = parseDate(d.end_date);
+});
+
+x.domain([
+  d3.min(data, d => d.start_date),
+  d3.max(data, d => d.end_date)
+]);
+y.domain([30, 60]);
+
+/*let line = d3.svg.line().interpolate("step-after")
+                .x(d => x(d.start_date))
+                .y(d => y(d.points));*/
+
+let line = "M",
+    fill = `M0,${height2}`;
+
+let svg5 = d3.select("#alertsOverTime").append("svg")
+          .attr("width", width2 + margin.left + margin.right)
+          .attr("height", height2 + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+data.forEach((d, i) => {
+  let y0 = y(d.points),
+      x0 = x(d.end_date);
+  if (i === 0) {
+    line += `${x(d.start_date)},${y0}H${x0}`;
+  } else {
+    line += `H${x0}`;
+  }
+
+  fill += `V${y0}H${x0}`;
+
+  if (data[i + 1]) {
+    line += `V${y(data[i + 1].points)}`;
+  }
+});
+
+fill += `V${height2}Z`;
+
+
+
+let avg = d3.mean(data, d => d.points);
+
+// x.domain([d3.min(data, function(d) { return d.start_date}), new Date()]);
+
+
+svg5.append("g")
+  .attr("class", "x axis")
+  .attr("transform", `translate(0,${height2})`)
+  .call(xAxis);
+
+svg5.append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+  .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 6)
+  .attr("dy", "1em")
+  .style("text-anchor", "end");
+
+svg5.append("path")
+  .attr("class", "line")
+  .attr("d", line);
+
+svg5.append("path")
+  .attr("class", "path-fill")
+  .attr("d", fill);
+
+/*svg.selectAll(".line")
+  .data(data)
+  .enter().append("line")
+  .attr("class", "line")
+  .attr("x1", d => x(d.start_date))
+  .attr("x2", d => x(d.end_date))
+  .attr("y1", d => y(d.points))
+  .attr("y2", d => y(d.points));*/
+
+svg5.append("line")
+  .attr("class", "avg-line")
+  .attr("x1", 0)
+  .attr("x2", width2)
+  .attr("y1", y(avg))
+  .attr("y2", y(avg));
+
+let focus = svg5.append("g")
+              .attr("class", "tooltip")
+              .style("display", "none");
+
+focus.append("circle")
+  .attr("class", "tooltip-point")
+  .attr("r", 6);
+
+focus.append("text")
+  .attr("class", "y1")
+  .attr("dx", "-2em")
+  .attr("dy", "-.75em");
+
+focus.append("line")
+  .attr("class", "tooltip-line tooltip-start-date")
+  .attr("y1", height2)
+  .attr("y2", height2);
+
+focus.append("line")
+  .attr("class", "tooltip-line tooltip-end-date")
+  .attr("y1", height2)
+  .attr("y2", height2);
+
+focus.append("line")
+  .attr("class", "tooltip-line tooltip-mileage")
+  .attr("x1", 0)
+  .attr("x2", width2)
+  .attr("y1", height2)
+  .attr("y2", height2);
+
+focus.append("text")
+  .attr("class", "x1")
+  .attr("dx", "-4.5em")
+  .attr("dy", "-.5em")
+  .attr("transform", "rotate(90)");
+
+focus.append("text")
+  .attr("class", "x2")
+  .attr("dx", "-4.5em")
+  .attr("dy", "-.5em");
+
+svg5.append("rect")
+  .attr("width", width2)
+  .attr("height", height2)
+  .style("fill", "none")
+  .style("pointer-events", "all")
+  .on("mouseover", () => focus.style("display", null))
+  .on("mouseout", () => focus.style("display", "none"))
+  .on("mousemove", mousemove);
+
+function mousemove() {
+  let x0 = x.invert(d3.mouse(this)[0]),
+      i = bisectDate(data, x0, 1),
+      d0 = data[i - 1],
+      d1 = data[i];
+
+  let d = typeof d1 !=="undefined" && x0 - d0.strat_date > d1.start_date - x0 ? d1 : d0;
+
+  focus.select("circle.tooltip-point")
+    .attr("transform",`translate(${d3.mouse(this)[0]},${y(d.points)})`);
+
+  focus.select("text.y1")
+    .attr("transform", "translate("+ d3.mouse(this)[0] + "," + y(d.points) + ")");
+
+  focus.select("text.x1")
+    .attr("transform", "translate("+ x(d.start_date) + "," + ((height2 + y(d.points))/2) + ") rotate(-90)");
+
+  focus.select("text.x2")
+    .attr("transform", "translate("+ x(d.end_date) + "," + ((height2 + y(d.points))/2) + ") rotate(-90)");
+
+  focus.select("line.tooltip-start-date")
+    .attr("y2", y(d.points))
+    .attr("x1", x(d.start_date))
+    .attr("x2", x(d.start_date));
+
+  focus.select("line.tooltip-end-date")
+    .attr("y2", y(d.points))
+    .attr("x1", x(d.end_date))
+    .attr("x2", x(d.end_date));
+
+  focus.select("line.tooltip-mileage")
+    .attr("y1", y(d.points))
+    .attr("y2", y(d.points));
+
+  focus.select("text.y1").text(d.points);
+
+  focus.select("text.x1").text(formatDate(d.start_date));
+
+  focus.select("text.x2").text(formatDate(d.end_date));
+}
+
+
+
+
+
+		var margin2 = {top: 50, right: 50, bottom: 50, left: 50}
+		  , width3 = 350 - margin2.left - margin2.right // Use the window's width
+		  , height3 = 250 - margin2.top - margin2.bottom; // Use the window's height
+
+let n = 21;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// append the svg object to the body of the page
+// append a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg9 = d3.select("#metricsChart").append("svg")
+    .attr("width", 1100 + margin.left + margin.right)
+    .attr("height", 220 + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+var salesCSV = "salesperson,sales\n03-18-21,24\n03-19-21,38\n03-20-21,29\n03-21-21,14\n03-22-21,53\n03-23-21,42\n03-24-21,5\n03-25-21,27\n03-26-21,28\n03-27-21,19\n03-28-21,34\n03-29-21,23\n03-30-21,32\n03-31-21,15";
+// get the data
+//Fleet overview Total Payload graph
+d3.csv('sales.csv', function(error, data) {
+//  if (error) throw error;
+  // format the data
+	data = d3.csvParse(salesCSV);
+  data.forEach(function(d) {
+    d.sales = +d.sales;
+  });
+
+let data2 = [
+	{salesperson: 'Julie', sales: 110},
+	{salesperson: 'Natali', sales: 150},
+	{salesperson: 'Li', sales: 150},
+	{salesperson: 'Kevin', sales: 50},
+	{salesperson: 'Sid', sales: 250},
+];
+
+let data23 = [
+	{salesperson: 'Sid', sales: 250},
+	{salesperson: 'Kevin', sales: 50},
+	{salesperson: 'Li', sales: 150},
+	{salesperson: 'Natali', sales: 150},
+	{salesperson: 'Julie', sales: 110},
+];
+
+
+var x2 = d3.scaleBand()
+          .range([0, 1100])
+          .padding(0.1);
+var y2 = d3.scaleLinear()
+          .range([220, 0]);
+
+
+  // Scale the range of the data in the domains
+  x2.domain(data.map(function(d) { return d.salesperson; }));
+  y2.domain([0, d3.max(data, function(d) { return d.sales; })]);
+
+
+  // append the rectangles for the bar chart
+  svg9.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x2(d.salesperson); })
+      .attr("width", 50)
+      .attr("y", function(d) { return y2(d.sales); })
+      .attr("height", function(d) { return 220 - y2(d.sales); });
+
+  // add the x Axis
+  svg9.append("g")
+      .attr("transform", "translate(0," + 220 + ")")
+      .call(d3.axisBottom(x2));
+
+  // add the y Axis
+  svg9.append("g")
+      .call(d3.axisLeft(y2));
+
+
+
+
+
+var svgI = d3.select("#idleTime").append("svg")
+    .attr("width", 500 + margin.left + margin.right)
+    .attr("height", 100 + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+var x2I = d3.scaleBand()
+          .range([0, 500])
+          .padding(0.1);
+var y2I = d3.scaleLinear()
+          .range([100, 0]);
+
+
+  // Scale the range of the data in the domains
+  x2I.domain(data2.map(function(d) { return d.salesperson; }));
+  y2I.domain([0, d3.max(data2, function(d) { return d.sales; })]);
+
+
+  // append the rectangles for the bar chart
+  svgI.selectAll(".bar")
+      .data(data2)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x2I(d.salesperson); })
+      .attr("width", 50)
+      .attr("y", function(d) { return y2I(d.sales); })
+      .attr("height", function(d) { return 100 - y2I(d.sales); });
+
+  // add the x Axis
+  svgI.append("g")
+      .attr("transform", "translate(0," + 100 + ")")
+      .attr("class","axisHidden")
+      .call(d3.axisBottom(x2I));
+
+  // add the y Axis
+  svgI.append("g")
+      .call(d3.axisLeft(y2I));
+
+
+
+
+
+
+
+      var svgI2 = d3.select("#idleTime").append("svg")
+    .attr("width", 500 + margin.left + margin.right)
+    .attr("height", 100 + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+var x2I2 = d3.scaleBand()
+          .range([0, 500])
+          .padding(0.1);
+var y2I2 = d3.scaleLinear()
+          .range([100, 0]);
+
+
+  // Scale the range of the data in the domains
+  x2I2.domain(data2.map(function(d) { return d.salesperson; }));
+  y2I2.domain([0, d3.max(data2, function(d) { return d.sales; })]);
+
+
+  // append the rectangles for the bar chart
+  svgI2.selectAll(".bar")
+      .data(data2)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x2I2(d.salesperson); })
+      .attr("width", 50)
+      .attr("y", function(d) { return y2I2(d.sales); })
+      .attr("height", function(d) { return 100 - y2I2(d.sales); });
+
+  // add the x Axis
+  svgI2.append("g")
+      .attr("transform", "translate(0," + 100 + ")")
+      .attr("class","axisHidden")
+      .call(d3.axisBottom(x2I2));
+
+  // add the y Axis
+  svgI2.append("g")
+      .call(d3.axisLeft(y2I2));
+
+
+
+
+
+      var svgI3 = d3.select("#idleTime").append("svg")
+      .attr("class","svgI3")
+    .attr("width", 500 + margin.left + margin.right)
+    .attr("height", 100 + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+var x2I3 = d3.scaleBand()
+          .range([0, 500])
+          .padding(0.1);
+var y2I3 = d3.scaleLinear()
+          .range([100, 0]);
+          var y2I32 = d3.scaleLinear()
+          .range([100, 0]);
+
+
+  // Scale the range of the data in the domains
+  x2I3.domain(data23.map(function(d) { return d.salesperson; }));
+  y2I3.domain([0, d3.max(data23, function(d) { return d.sales; })]);
+  y2I32.domain([d3.max(data23, function(d) { return d.sales; }),0]);
+
+
+  // append the rectangles for the bar chart
+  svgI3.selectAll(".bar")
+      .data(data23)
+    .enter().append("rect")
+      .attr("class", "bar2")
+      .attr("x", function(d) { return x2I3(d.salesperson); })
+      .attr("width", 50)
+      .attr("y", function(d) { return 0; })
+      .attr("height", function(d) { return 100-y2I3(d.sales); });
+
+
+
+  // add the y Axis
+  svgI3.append("g")
+      .call(d3.axisLeft(y2I32));
+
+
+
+
+
+      var svgI4 = d3.select("#idleTime").append("svg")
+      .attr("class","svgI3")
+    .attr("width", 500 + margin.left + margin.right)
+    .attr("height", 100 + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+var x2I4 = d3.scaleBand()
+          .range([0, 500])
+          .padding(0.1);
+var y2I4 = d3.scaleLinear()
+          .range([100, 0]);
+
+
+  // Scale the range of the data in the domains
+  x2I4.domain(data2.map(function(d) { return d.salesperson; }));
+  y2I4.domain([0, d3.max(data2, function(d) { return d.sales; })]);
+
+
+  // append the rectangles for the bar chart
+  svgI4.selectAll(".bar")
+      .data(data2)
+    .enter().append("rect")
+      .attr("class", "bar2")
+      .attr("x", function(d) { return x2I4(d.salesperson); })
+      .attr("width", 50)
+      .attr("y", function(d) { return 0; })
+      .attr("height", function(d) { return 100 - y2I4(d.sales); });
+
+  // add the y Axis
+  svgI4.append("g")
+      .call(d3.axisLeft(y2I32));
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+     <script src="./jquery.min.js"></script>
+		 <script src="./HardData.js"></script>
+		 <script src="./js/bootstrap.bundle.min.js"></script>
+		 <script src="./js/jquery.dataTables.js" type="text/javascript"></script>
+		 <script src="./js/dataTables.bootstrap.js" type="text/javascript"></script>
+
+	 <!--		Getting Data from server		-->
+
+     <script>
+
+
+		var dataset2raw = dataset2rawdata;
+
+		function makeTableData(rawData){
+			var newData = [];
+			for(let i=0; i<rawData.length; i++){
+				if(rawData[i]["symbot_name"] == "symbotE400140"){
+					if(rawData[i]["symview_tag_name"] == "KJ1939Engine1Speed" || rawData[i]["symview_tag_name"] == "KJ1939Engine1OilPressure"){
+						//var newT = new Date(rawData[i]["time"]);
+						//rawData[i]["time"] = newT;
+						rawData[i]["symbot_name"] = "A247F2";
+						rawData[i]["Graph"] = "View Graph";
+						newData.push(rawData[i]);
+					}
+				}
+			}
+			return newData;
+		}
+
+
+
+		function addPoint(dataList, point){
+			var newT = new Date(point["time"]);
+			point["time"] = newT;
+			if(point["symview_tag_name"] == "KJ1939WheelBasedVehicleSpeed"){
+				dataList["groundSpeed"].push(point);
+			}else if(point["symview_tag_name"] == "KJ1939TotalVehicleHours"){
+				dataList["engineHours"].push(point);
+			}else if(point["symview_tag_name"] == "KJ1939BodySeating"){
+				dataList["bodyPosistion"].push(point);
+			}else if(point["symview_tag_name"] == "KJ1939Engine1Speed"){
+				dataList["rpm"].push(point);
+			}else if(point["symview_tag_name"] == "KJ1939Engine1OilPressure"){
+				dataList["oilPressure"].push(point);
+			}
+			return dataList;
+		}
+
+		var symbotE400140Data = {"groundSpeed":[],"engineHours":[],"bodyPosistion":[],"rpm":[],"oilPressure":[]};
+		var symbotE400141Data = {"groundSpeed":[],"engineHours":[],"bodyPosistion":[],"rpm":[],"oilPressure":[]};
+		var symbotE400143Data = {"groundSpeed":[],"engineHours":[],"bodyPosistion":[],"rpm":[],"oilPressure":[]};
+
+		for(let i =0; i<dataset2raw.length; i++){
+			if(dataset2raw[i]["symbot_name"] == "symbotE400140"){
+				symbotE400140Data = addPoint(symbotE400140Data,dataset2raw[i]);
+			}else if(dataset2raw[i]["symbot_name"] == "symbotE400141"){
+				symbotE400141Data = addPoint(symbotE400141Data,dataset2raw[i]);
+			}else if(dataset2raw[i]["symbot_name"] == "symbotE400143"){
+				symbotE400143Data = addPoint(symbotE400143Data,dataset2raw[i]);
+			}
+		}
+		// 2. Use the margin convention practice
+		var margin2 = {top: 50, right: 50, bottom: 50, left: 50}
+		, width3 = 350 - margin2.left - margin2.right // Use the window's width
+		, height3 = 250 - margin2.top - margin2.bottom; // Use the window's height
+
+		var tableData = makeTableData(dataset2raw);
+
+
+		var tr = d3.select(".engineRawTable tbody")
+ 			.selectAll("tr")
+ 			.data(tableData)
+ 			.enter().append("tr").attr("class", "engineTableRow");
+
+		var td = tr.selectAll("td")
+ 			.data(function(d, i) { return Object.values(d); })
+ 			.enter().append("td")
+	 		.text(function(d, i) {if(i==2 && d != null){return d.toLocaleString()}return d; });
+
+			$(function() {
+		    $("#engineRawTable").dataTable({
+		        "iDisplayLength": 10,
+		        "aLengthMenu": [[10, 25, 50, 100,  -1], [10, 25, 50, 100, "All"]]
+		       });
+
+		   });
+
+
+
+
+		let width6 = 1028;
+		let height6 = 300;
+
+
+		var xScale6 = d3.scaleTime()
+			.domain(d3.extent(symbotE400140Data["rpm"], function(d) {
+				return d.time;
+			})).nice()
+			.range([0, width6]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale6 = d3.scaleLinear()			  .domain(d3.extent(symbotE400140Data["rpm"], function(d) {
+				return Number(d.value);
+			})).nice()
+			.range([height6, 0]); // output
+
+
+		var yScalea6 = d3.scaleLinear()			  .domain(d3.extent(symbotE400140Data["rpm"], function(d) {
+				return Number(d.value);
+			})).nice()
+			.range([height6, 0]); // output
+
+			var xScale7 = d3.scaleTime()
+				.domain(d3.extent(symbotE400140Data["oilPressure"], function(d) {
+					return d.time;
+				})).nice()
+				.range([0, width6]); // output
+
+			// 6. Y scale will use the randomly generate number
+			var yScale7 = d3.scaleLinear()			  .domain(d3.extent(symbotE400140Data["oilPressure"], function(d) {
+					return Number(d.value);
+				})).nice()
+				.range([height6, 0]); // output
+
+
+			var yScalea7 = d3.scaleLinear()			  .domain(d3.extent(symbotE400140Data["oilPressure"], function(d) {
+					return Number(d.value);
+				})).nice()
+				.range([height6, 0]); // output
+
+			var lineOilPressure = d3.line()
+						.x(function(d, i) { return xScale7(d.time); }) // set the x values for the line generator
+						.y(function(d) { return yScalea7(d.value); }) // set the y values for the line generator
+						.curve(d3.curveMonotoneX) // apply smoothing to the line
+
+			var line3eh11 = d3.line()
+					.x(function(d, i) { return xScale6(d.time); }) // set the x values for the line generator
+					.y(function(d) { return yScalea6(d.value); }) // set the y values for the line generator
+					.curve(d3.curveMonotoneX) // apply smoothing to the line
+
+			var svg11 = d3.select("#engineRawData").append("svg")
+					    .attr("class", "rpmAndOilGraph")
+					    .attr("width", width6 +
+						 margin2.left + margin2.right)
+					    .attr("height", height6 + margin2.top + margin2.bottom)
+					  .append("g")
+					    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+			svg11.append("g")
+							    .attr("class", "x axis")
+							    .attr("transform", "translate(0," + height6 + ")")
+							    .call(d3.axisBottom(xScale6)); // Create an axis component with d3.axisBottom
+			svg11.append("g")
+									.attr("class","y axis2")
+									.call(d3.axisRight(yScale7))
+
+							// 4. Call the y axis in a group tag
+			svg11.append("g")
+							    .attr("class", "y axis")
+							    .call(d3.axisLeft(yScale6)); // Create an axis component with d3.axisLeft
+
+							// 9. Append the path, bind the data, and call the line generator
+			svg11.append("path")
+							    .datum(symbotE400140Data["rpm"]) // 10. Binds data to the line
+							    .attr("class", "Engineline2") // Assign a class for styling
+							    .attr("d", line3eh11);
+			svg11.append("path")
+							    .datum(symbotE400140Data["oilPressure"]) // 10. Binds data to the line
+						    	.attr("class", "Engineline3") // Assign a class for styling
+									.attr("d", lineOilPressure);
+			svg11.append("circle").attr("cx",10).attr("cy", -30).attr("r", 6).style("fill", "#4C8BF5")
+			svg11.append("circle").attr("cx",140).attr("cy",-30).attr("r", 6).style("fill", "#ff4242")
+			svg11.append("text").attr("x", 25).attr("y", -30).text("Engine RPM").style("font-size", "15px").attr("alignment-baseline","middle")
+			svg11.append("text").attr("x", 155).attr("y", -30).text("Oil Pressure").style("font-size", "15px").attr("alignment-baseline","middle")
+
+
+
+
+
+		function makeRawGraph(data,classNames){
+
+
+		// The number of datapoints
+		 n = 12;
+
+function findMax(d){
+	var max = Number(d[0]["value"]);
+	for(let i=0;i<d.length;i++){
+		if (Number(d[i]["value"]) > max){
+			max = Number(d[i]["value"]);
+		}
+	}
+	return max;
+}
+function findMin(d){
+	var max = Number(d[0]["value"]);
+	for(let i=0;i<d.length;i++){
+		if (Number(d[i]["value"]) < max){
+			max = Number(d[i]["value"]);
+		}
+	}
+	return max;
+}
+let largestY = findMax(data);
+let smallestY = findMin(data);
+console.log(largestY, smallestY);
+let width5 = 1028;
+let height5 = 300;
+
+
+    	var xScale2 = d3.scaleTime()
+			  .domain(d3.extent(data, function(d) {
+			    return d.time;
+			  })).nice()
+		    .range([0, width5]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale2 = d3.scaleLinear()			  .domain(d3.extent(data, function(d) {
+			    return Number(d.value);
+			  })).nice()
+		    .range([height5, 0]); // output
+
+
+		var yScalea2 = d3.scaleLinear()			  .domain(d3.extent(data, function(d) {
+			    return Number(d.value);
+			  })).nice()
+		    .range([height5, 0]); // output
+
+
+
+
+
+		var line3eh2 = d3.line()
+		    .x(function(d, i) { return xScale2(d.time); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea2(d.value); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+// 1. Add the SVG to the page and employ #2
+var svg8 = d3.select("#rawDataChart").append("svg")
+    .attr("class", classNames)
+    .attr("width", width5 +
+	 margin2.left + margin2.right)
+    .attr("height", height5 + margin2.top + margin2.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+		// 3. Call the x axis in a group tag
+		svg8.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height5 + ")")
+		    .call(d3.axisBottom(xScale2)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg8.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScale2)); // Create an axis component with d3.axisLeft
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg8.append("path")
+		    .datum(data) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line3eh2); // 11. Calls the line generator
+
+	}
+
+	var symbots= ["symbotE400140", "symbotE400141", "symbotE400143"];
+	var symbotMapping = {"symbotE400140":symbotE400140Data,"symbotE400141":symbotE400141Data,"symbotE400143":symbotE400143Data};
+	var tags =["groundSpeed","engineHours","bodyPosistion","rpm","oilPressure"];
+
+	for(let i=0;i<symbots.length;i++){
+		for(let j=0;j<tags.length;j++){
+			makeRawGraph(symbotMapping[symbots[i]][tags[j]], symbots[i].concat(' ', tags[j]));
+		}
+	}
+	$(".groundSpeed,.engineHours,.bodyPosistion,.rpm,.oilPressure").hide();
+	$(".groundSpeed.symbotE400140").show();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		var dataset2eh = dataset2ehdata;
+    for(let i = 0; i < dataset2eh.length; i++){
+    	if(dataset2eh[i]['point']<137000||dataset2eh[i]['point']>137300){
+  			dataset2eh.splice(i, 1);
+    	}
+		dataset2eh[i]['t'] = new Date(dataset2eh[i]['time']);
+    	dataset2eh[i]['y'] = dataset2eh[i]['point'];
+    }
+
+    for(let i = 0; i < dataset2eh.length; i++){
+    	if(dataset2eh[i]['point']<137000||dataset2eh[i]['point']>137300){
+  			dataset2eh.splice(i, 1);
+    	}
+    }
+
+    console.log(dataset2eh);
+
+    		// 2. Use the margin convention practice
+		var margin2 = {top: 50, right: 50, bottom: 50, left: 50}
+		  , width3 = 350 - margin2.left - margin2.right // Use the window's width
+		  , height3 = 250 - margin2.top - margin2.bottom; // Use the window's height
+
+		// The number of datapoints
+		 n = 12;
+		/*var dataset = [
+			{"y": 15, "t": "2021-03-29 01:10:00.918"},
+			{"y": 5, "t": "2021-03-29 01:20:00.918"}
+		];*/
+
+
+    	var xScale = d3.scaleTime()
+			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, width3]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale = d3.scaleLinear()			  .domain([137000,137300])
+		    .range([height3, 0]); // output
+
+
+		    		var yScalea = d3.scaleLinear()			  .domain([137000,137300])
+		    .range([height3, 0]); // output
+
+
+
+
+
+		var line3eh = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+
+		// 1. Add the SVG to the page and employ #2
+		var svg6eh = d3.select("#predictiveKPIsChart").append("svg")
+			.attr("class","predictiveFuel")
+		    .attr("width", width3 + margin2.left + margin2.right)
+		    .attr("height", height3 + margin2.top + margin2.bottom)
+		  .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+ // xScale.domain(d3.extent(data, function(d) { return d.t; }));
+  //yScale.domain([0, d3.max(data, function(d) { return d.y; })]);
+
+
+
+		// 3. Call the x axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "xAxis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale).ticks(7)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "yAxis")
+		    .call(d3.axisLeft(yScale).ticks(9)); // Create an axis component with d3.axisLeft
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6eh.append("path")
+		    .datum(dataset2eh) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line3eh); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		/*svg6eh.selectAll(".dot")
+		    .data(dataset2eh)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScale(d.y) })
+		    .attr("r", 5);*/
+
+/*
+		// 3. Call the x axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisRight(yScalea))
+		    .attr("transform", "translate("+width3+",0)"); // Create an axis component with d3.axisLeft
+/*
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6eh.append("path")
+		    .datum(dataset2eh) // 10. Binds data to the line
+		    .attr("class", "line3") // Assign a class for styling
+		    .attr("d", line3eh); // 11. Calls the line generator
+*/
+		// 12. Appends a circle for each datapoint
+	/*	svg6eh.selectAll(".dot")
+		    .data(dataset2eh)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScalea(d.y) })
+		    .attr("r", 5);*/
+
+
+
+
+
+
+
+
+
+
+
+
+var width5 = 1080;
+var height5 = 300;
+
+
+
+
+    	var xScale2 = d3.scaleTime()
+			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, width5]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale2 = d3.scaleLinear()			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.y;
+			  }))
+		    .range([height5, 0]); // output
+
+
+		    		var yScalea2 = d3.scaleLinear()			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.y;
+			  }))
+		    .range([height5, 0]); // output
+
+
+
+
+
+		var line3eh2 = d3.line()
+		    .x(function(d, i) { return xScale2(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea2(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+// 1. Add the SVG to the page and employ #2
+var svg8 = d3.select("#rawDataChart").append("svg")
+    .attr("class","rawFuel")
+    .attr("width", width5 + margin2.left + margin2.right)
+    .attr("height", height5 + margin2.top + margin2.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+		// 3. Call the x axis in a group tag
+		svg8.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height5 + ")")
+		    .call(d3.axisBottom(xScale2)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg8.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScale2)); // Create an axis component with d3.axisLeft
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg8.append("path")
+		    .datum(dataset2eh) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line3eh2); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+	/*	svg8.selectAll(".dot")
+		    .data(dataset2eh)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale2(d.t) })
+		    .attr("cy", function(d) { return yScale2(d.y) })
+		    .attr("r", 5);
+/*
+
+		// 3. Call the x axis in a group tag
+		svg8.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height5 + ")")
+		    .call(d3.axisBottom(xScale2)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg8.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisRight(yScale2))
+		    .attr("transform", "translate("+width5+",0)"); // Create an axis component with d3.axisLeft
+/*
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6eh.append("path")
+		    .datum(dataset2eh) // 10. Binds data to the line
+		    .attr("class", "line3") // Assign a class for styling
+		    .attr("d", line3eh); // 11. Calls the line generator
+*/
+		// 12. Appends a circle for each datapoint
+		/*svg8.selectAll(".dot")
+		    .data(dataset2eh)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale2(d.t) })
+		    .attr("cy", function(d) { return yScalea2(d.y) })
+		    .attr("r", 5);*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		var dataset2eh = dataset2ehdata2;
+    for(let i = 0; i < dataset2eh.length; i++){
+      dataset2eh[i]['t'] = new Date(dataset2eh[i]['t']);
+    }
+
+    /*
+    console.log(dataset2eh);
+
+    		// 2. Use the margin convention practice
+		var margin2 = {top: 50, right: 50, bottom: 50, left: 50}
+		  , width3 = 350 - margin2.left - margin2.right // Use the window's width
+		  , height3 = 250 - margin2.top - margin2.bottom; // Use the window's height
+
+		// The number of datapoints
+		 n = 12;
+		/*var dataset = [
+			{"y": 15, "t": "2021-03-29 01:10:00.918"},
+			{"y": 5, "t": "2021-03-29 01:20:00.918"}
+		];*/
+
+/*
+    	var xScale = d3.scaleTime()
+			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, width3]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale = d3.scaleLinear()			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.rr;
+			  }))
+		    .range([height3, 0]); // output
+
+
+		    		var yScalea = d3.scaleLinear()			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.rr;
+			  }))
+		    .range([height3, 0]); // output
+
+
+
+
+
+		var line3eh = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea(d.rr); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+
+		// 1. Add the SVG to the page and employ #2
+		var svg6eh = d3.select("#predictiveKPIsChart").append("svg")
+			.attr("class","predictiveSpeedKPI")
+		    .attr("width", width3 + margin2.left + margin2.right)
+		    .attr("height", height3 + margin2.top + margin2.bottom)
+		  .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+ // xScale.domain(d3.extent(data, function(d) { return d.t; }));
+  //yScale.domain([0, d3.max(data, function(d) { return d.y; })]);
+
+
+
+		// 3. Call the x axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6eh.append("path")
+		    .datum(dataset2eh) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line3eh); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6eh.selectAll(".dot")
+		    .data(dataset2eh)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScale(d.rr) })
+		    .attr("r", 5);
+
+
+		// 3. Call the x axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6eh.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisRight(yScalea))
+		    .attr("transform", "translate("+width3+",0)"); // Create an axis component with d3.axisLeft
+/*
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6eh.append("path")
+		    .datum(dataset2eh) // 10. Binds data to the line
+		    .attr("class", "line3") // Assign a class for styling
+		    .attr("d", line3eh); // 11. Calls the line generator
+*/
+		// 12. Appends a circle for each datapoint
+	/*	svg6eh.selectAll(".dot")
+		    .data(dataset2eh)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScalea(d.rr) })
+		    .attr("r", 5);
+
+        */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    	var xScale2 = d3.scaleTime()
+			  .domain(d3.extent(dataset2eh, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, width5]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale2 = d3.scaleLinear()			  .domain([1500,18000])
+		    .range([height5, 0]); // output
+
+
+		    		var yScalea2 = d3.scaleLinear()			  .domain([1500,18000])
+		    .range([height5, 0]); // output
+
+
+
+
+
+		var line3eh2 = d3.line()
+		    .x(function(d, i) { return xScale2(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea2(d.rr); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+		var line3eh2b = d3.line()
+		    .x(function(d, i) { return xScale2(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea2(d.rl); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+        		var line3eh2c = d3.line()
+		    .x(function(d, i) { return xScale2(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea2(d.fr); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+        		var line3eh2d = d3.line()
+		    .x(function(d, i) { return xScale2(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea2(d.fl); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+
+
+
+
+
+
+
+
+        //		Code for switching between Pages		\\
+     	$("#fleetOverview").click(function(){
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#fleetPage").css("display","block");$("#vehicleOverviewBox").css("top","128px");
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#overview").text("Fleet Overview");
+
+     	});
+     	$("#uptake").click(function(){
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#uptakePage").css("display","block");$("#vehicleOverviewBox").css("top","485px");
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#overview").text("Uptake");
+
+     	});
+
+     	$("#marketplace").click(function(){
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","block"); $("#benchmarkPage").css("display","none");$("#vehicleOverviewBox").css("top","428px");
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#overview").text("Marketplace");
+
+     	});
+     	$("#benchmarks").click(function(){
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#overview").text("Overview");
+
+     	});
+			$("#diagnostics").click(function(){
+				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
+				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+				$("#overview").text("Diagnostics Metrics");
+
+			});
+
+
+
+     	$("#vehicleOverview").click(function(){
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#vehiclePage").css("display","block");$("#vehicleOverviewBox").css("top","188px");
+     	     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+     		$("#overview").text("Vehicle Overview");});
+     	$("#rawData").click(function(){ $("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#rawDataPage").css("display","block");$("#vehicleOverviewBox").css("top","248px");     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#overview").text("Engine Overview");
+				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+			});
+
+     	let dataPoints = [];
+
+
+	data = simpleapidata;
+	dataPoints = data;
+   // let obj =jQuery.parseJSON(data);
+    console.log(dataPoints);
+$("#grey,#loading").remove();
+
+		// 2. Use the margin convention practice
+		var margin2 = {top: 50, right: 50, bottom: 50, left: 50}
+		  , width3 = 350 - margin2.left - margin2.right // Use the window's width
+		  , height3 = 250 - margin2.top - margin2.bottom; // Use the window's height
+
+		// The number of datapoints
+		 n = 12;
+		/*var dataset = [
+			{"y": 15, "t": "2021-03-29 01:10:00.918"},
+			{"y": 5, "t": "2021-03-29 01:20:00.918"}
+		];*/
+
+
+
+				// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+		var dataset7 = [
+			{"y": data[0]["payload"][0]["point"], "t": new Date(data[0]["payload"][0]["time"])},
+			{"y": data[0]["payload"][1]["point"], "t": new Date(data[0]["payload"][1]["time"])},
+			{"y": data[0]["payload"][2]["point"], "t": new Date(data[0]["payload"][2]["time"])},
+			{"y": data[0]["payload"][3]["point"], "t": new Date(data[0]["payload"][3]["time"])},
+			{"y": data[0]["payload"][4]["point"], "t": new Date(data[0]["payload"][4]["time"])},
+			{"y": data[0]["payload"][5]["point"], "t": new Date(data[0]["payload"][5]["time"])},
+			{"y": data[0]["payload"][6]["point"], "t": new Date(data[0]["payload"][6]["time"])},
+			{"y": data[0]["payload"][7]["point"], "t": new Date(data[0]["payload"][7]["time"])},
+			{"y": data[0]["payload"][8]["point"], "t": new Date(data[0]["payload"][8]["time"])},
+			{"y": data[0]["payload"][9]["point"], "t": new Date(data[0]["payload"][9]["time"])},
+			{"y": data[0]["payload"][10]["point"], "t": new Date(data[0]["payload"][10]["time"])},
+			{"y": data[0]["payload"][11]["point"], "t": new Date(data[0]["payload"][11]["time"])}
+		];
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='payloadRawKPI'><td class="left">Payload</td><td>0${dataset7[i]['t'].getHours()}:${(dataset7[i]['t'].getMinutes()==0?"00":dataset7[i]['t'].getMinutes())}</td><td>${dataset7[i]['y']}</td></tr>`);
+		}
+
+				// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+		var dataset6 = [
+			{"y": data[0]["enginerpm"][0]["point"], "t": new Date(data[0]["enginerpm"][0]["time"])},
+			{"y": data[0]["enginerpm"][1]["point"], "t": new Date(data[0]["enginerpm"][1]["time"])},
+			{"y": data[0]["enginerpm"][2]["point"], "t": new Date(data[0]["enginerpm"][2]["time"])},
+			{"y": data[0]["enginerpm"][3]["point"], "t": new Date(data[0]["enginerpm"][3]["time"])},
+			{"y": data[0]["enginerpm"][4]["point"], "t": new Date(data[0]["enginerpm"][4]["time"])},
+			{"y": data[0]["enginerpm"][5]["point"], "t": new Date(data[0]["enginerpm"][5]["time"])},
+			{"y": data[0]["enginerpm"][6]["point"], "t": new Date(data[0]["enginerpm"][6]["time"])},
+			{"y": data[0]["enginerpm"][7]["point"], "t": new Date(data[0]["enginerpm"][7]["time"])},
+			{"y": data[0]["enginerpm"][8]["point"], "t": new Date(data[0]["enginerpm"][8]["time"])},
+			{"y": data[0]["enginerpm"][9]["point"], "t": new Date(data[0]["enginerpm"][9]["time"])},
+			{"y": data[0]["enginerpm"][10]["point"], "t": new Date(data[0]["enginerpm"][10]["time"])},
+			{"y": data[0]["enginerpm"][11]["point"], "t": new Date(data[0]["enginerpm"][11]["time"])}
+		];
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='engineRawKPI'><td class="left">Engine RPM</td><td>0${dataset6[i]['t'].getHours()}:${(dataset6[i]['t'].getMinutes()==0?"00":dataset6[i]['t'].getMinutes())}</td><td>${dataset6[i]['y']}</td></tr>`);
+		}
+
+				// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+		var dataset5 = [
+			{"y": data[0]["boostpressure"][0]["point"], "t": new Date(data[0]["boostpressure"][0]["time"])},
+			{"y": data[0]["boostpressure"][1]["point"], "t": new Date(data[0]["boostpressure"][1]["time"])},
+			{"y": data[0]["boostpressure"][2]["point"], "t": new Date(data[0]["boostpressure"][2]["time"])},
+			{"y": data[0]["boostpressure"][3]["point"], "t": new Date(data[0]["boostpressure"][3]["time"])},
+			{"y": data[0]["boostpressure"][4]["point"], "t": new Date(data[0]["boostpressure"][4]["time"])},
+			{"y": data[0]["boostpressure"][5]["point"], "t": new Date(data[0]["boostpressure"][5]["time"])},
+			{"y": data[0]["boostpressure"][6]["point"], "t": new Date(data[0]["boostpressure"][6]["time"])},
+			{"y": data[0]["boostpressure"][7]["point"], "t": new Date(data[0]["boostpressure"][7]["time"])},
+			{"y": data[0]["boostpressure"][8]["point"], "t": new Date(data[0]["boostpressure"][8]["time"])},
+			{"y": data[0]["boostpressure"][9]["point"], "t": new Date(data[0]["boostpressure"][9]["time"])},
+			{"y": data[0]["boostpressure"][10]["point"], "t": new Date(data[0]["boostpressure"][10]["time"])},
+			{"y": data[0]["boostpressure"][11]["point"], "t": new Date(data[0]["boostpressure"][11]["time"])}
+		];
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='boostRawKPI'><td class="left">Boost Pressure</td><td>0${dataset5[i]['t'].getHours()}:${(dataset5[i]['t'].getMinutes()==0?"00":dataset5[i]['t'].getMinutes())}</td><td>${dataset5[i]['y']}</td></tr>`);
+		}
+
+				// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+		var dataset4 = [
+			{"y": data[0]["bodypos"][0]["point"], "t": new Date(data[0]["bodypos"][0]["time"])},
+			{"y": data[0]["bodypos"][1]["point"], "t": new Date(data[0]["bodypos"][1]["time"])},
+			{"y": data[0]["bodypos"][2]["point"], "t": new Date(data[0]["bodypos"][2]["time"])},
+			{"y": data[0]["bodypos"][3]["point"], "t": new Date(data[0]["bodypos"][3]["time"])},
+			{"y": data[0]["bodypos"][4]["point"], "t": new Date(data[0]["bodypos"][4]["time"])},
+			{"y": data[0]["bodypos"][5]["point"], "t": new Date(data[0]["bodypos"][5]["time"])},
+			{"y": data[0]["bodypos"][6]["point"], "t": new Date(data[0]["bodypos"][6]["time"])},
+			{"y": data[0]["bodypos"][7]["point"], "t": new Date(data[0]["bodypos"][7]["time"])},
+			{"y": data[0]["bodypos"][8]["point"], "t": new Date(data[0]["bodypos"][8]["time"])},
+			{"y": data[0]["bodypos"][9]["point"], "t": new Date(data[0]["bodypos"][9]["time"])},
+			{"y": data[0]["bodypos"][10]["point"], "t": new Date(data[0]["bodypos"][10]["time"])},
+			{"y": data[0]["bodypos"][11]["point"], "t": new Date(data[0]["bodypos"][11]["time"])}
+		];
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='bodyRawKPI'><td class="left">Body Position</td><td>0${dataset4[i]['t'].getHours()}:${(dataset4[i]['t'].getMinutes()==0?"00":dataset4[i]['t'].getMinutes())}</td><td>${dataset4[i]['y']}</td></tr>`);
+		}
+
+				// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+		var dataset3 = [
+			{"y": data[0]["braketemp"][0]["point"], "t": new Date(data[0]["braketemp"][0]["time"])},
+			{"y": data[0]["braketemp"][1]["point"], "t": new Date(data[0]["braketemp"][1]["time"])},
+			{"y": data[0]["braketemp"][2]["point"], "t": new Date(data[0]["braketemp"][2]["time"])},
+			{"y": data[0]["braketemp"][3]["point"], "t": new Date(data[0]["braketemp"][3]["time"])},
+			{"y": data[0]["braketemp"][4]["point"], "t": new Date(data[0]["braketemp"][4]["time"])},
+			{"y": data[0]["braketemp"][5]["point"], "t": new Date(data[0]["braketemp"][5]["time"])},
+			{"y": data[0]["braketemp"][6]["point"], "t": new Date(data[0]["braketemp"][6]["time"])},
+			{"y": data[0]["braketemp"][7]["point"], "t": new Date(data[0]["braketemp"][7]["time"])},
+			{"y": data[0]["braketemp"][8]["point"], "t": new Date(data[0]["braketemp"][8]["time"])},
+			{"y": data[0]["braketemp"][9]["point"], "t": new Date(data[0]["braketemp"][9]["time"])},
+			{"y": data[0]["braketemp"][10]["point"], "t": new Date(data[0]["braketemp"][10]["time"])},
+			{"y": data[0]["braketemp"][11]["point"], "t": new Date(data[0]["braketemp"][11]["time"])}
+		];
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='brakeRawKPI'><td class="left">Brake Temp</td><td>0${dataset3[i]['t'].getHours()}:${(dataset3[i]['t'].getMinutes()==0?"00":dataset3[i]['t'].getMinutes())}</td><td>${dataset3[i]['y']}</td></tr>`);
+		}
+
+
+
+				// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+		var dataset2 = [
+			{"y": data[0]["gear"][0]["point"], "t": new Date(data[0]["gear"][0]["time"])},
+			{"y": data[0]["gear"][1]["point"], "t": new Date(data[0]["gear"][1]["time"])},
+			{"y": data[0]["gear"][2]["point"], "t": new Date(data[0]["gear"][2]["time"])},
+			{"y": data[0]["gear"][3]["point"], "t": new Date(data[0]["gear"][3]["time"])},
+			{"y": data[0]["gear"][4]["point"], "t": new Date(data[0]["gear"][4]["time"])},
+			{"y": data[0]["gear"][5]["point"], "t": new Date(data[0]["gear"][5]["time"])},
+			{"y": data[0]["gear"][6]["point"], "t": new Date(data[0]["gear"][6]["time"])},
+			{"y": data[0]["gear"][7]["point"], "t": new Date(data[0]["gear"][7]["time"])},
+			{"y": data[0]["gear"][8]["point"], "t": new Date(data[0]["gear"][8]["time"])},
+			{"y": data[0]["gear"][9]["point"], "t": new Date(data[0]["gear"][9]["time"])},
+			{"y": data[0]["gear"][10]["point"], "t": new Date(data[0]["gear"][10]["time"])},
+			{"y": data[0]["gear"][11]["point"], "t": new Date(data[0]["gear"][11]["time"])}
+		];
+
+
+
+
+
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='gearRawKPI'><td class="left">Gear</td><td>0${dataset2[i]['t'].getHours()}:${(dataset2[i]['t'].getMinutes()==0?"00":dataset2[i]['t'].getMinutes())}</td><td>${dataset2[i]['y']}</td></tr>`);
+		}
+
+
+
+
+		var dataset = [
+			{"y": data[0]["speed"][0]["point"], "t": new Date(data[0]["speed"][0]["time"])},
+			{"y": data[0]["speed"][1]["point"], "t": new Date(data[0]["speed"][1]["time"])},
+			{"y": data[0]["speed"][2]["point"], "t": new Date(data[0]["speed"][2]["time"])},
+			{"y": data[0]["speed"][3]["point"], "t": new Date(data[0]["speed"][3]["time"])},
+			{"y": data[0]["speed"][4]["point"], "t": new Date(data[0]["speed"][4]["time"])},
+			{"y": data[0]["speed"][5]["point"], "t": new Date(data[0]["speed"][5]["time"])},
+			{"y": data[0]["speed"][6]["point"], "t": new Date(data[0]["speed"][6]["time"])},
+			{"y": data[0]["speed"][7]["point"], "t": new Date(data[0]["speed"][7]["time"])},
+			{"y": data[0]["speed"][8]["point"], "t": new Date(data[0]["speed"][8]["time"])},
+			{"y": data[0]["speed"][9]["point"], "t": new Date(data[0]["speed"][9]["time"])},
+			{"y": data[0]["speed"][10]["point"], "t": new Date(data[0]["speed"][10]["time"])},
+			{"y": data[0]["speed"][11]["point"], "t": new Date(data[0]["speed"][11]["time"])}
+		];
+/*
+
+		var datasetz = [
+			{"y": data[1]["speed"][0]["point"], "t": new Date(data[1]["speed"][0]["time"])},
+			{"y": data[1]["speed"][1]["point"], "t": new Date(data[1]["speed"][1]["time"])},
+			{"y": data[1]["speed"][2]["point"], "t": new Date(data[1]["speed"][2]["time"])},
+			{"y": data[1]["speed"][3]["point"], "t": new Date(data[1]["speed"][3]["time"])},
+			{"y": data[1]["speed"][4]["point"], "t": new Date(data[1]["speed"][4]["time"])},
+			{"y": data[1]["speed"][5]["point"], "t": new Date(data[1]["speed"][5]["time"])},
+			{"y": data[1]["speed"][6]["point"], "t": new Date(data[1]["speed"][6]["time"])},
+			{"y": data[1]["speed"][7]["point"], "t": new Date(data[1]["speed"][7]["time"])},
+			{"y": data[1]["speed"][8]["point"], "t": new Date(data[1]["speed"][8]["time"])},
+			{"y": data[1]["speed"][9]["point"], "t": new Date(data[1]["speed"][9]["time"])},
+			{"y": data[1]["speed"][10]["point"], "t": new Date(data[1]["speed"][10]["time"])},
+			{"y": data[1]["speed"][11]["point"], "t": new Date(data[1]["speed"][11]["time"])}
+		];*/
+
+
+		for(let i = 0; i < 7; i++){
+			$("#rawKPIs").append(`<tr class='speedRawKPI'><td class="left">Speed</td><td>0${dataset[i]['t'].getHours()}:${(dataset[i]['t'].getMinutes()==0?"00":dataset[i]['t'].getMinutes())}</td><td>${dataset[i]['y']}</td></tr>`);
+		}
+
+		// 5. X scale will use the index of our data
+		var xScale = d3.scaleTime()
+			  .domain(d3.extent(dataset, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, width3]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScale = d3.scaleLinear()
+		    .domain([0, 30]) // input
+		    .range([height3, 0]); // output
+
+		    		var yScalea = d3.scaleLinear()
+		    .domain([0, 4000]) // input
+		    .range([height3, 0]); // output
+
+		    		    		var yScaleb = d3.scaleLinear()
+		    .domain([0, 200]) // input
+		    .range([height3, 0]); // output
+
+		    		    		var yScalec = d3.scaleLinear()
+		    .domain([0, 2000]) // input
+		    .range([height3, 0]); // output
+
+		    		    		var yScaled = d3.scaleLinear()
+		    .domain([0, 16]) // input
+		    .range([height3, 0]); // output
+
+		    		    		    		var yScalee = d3.scaleLinear()
+		    .domain([0, 35000]) // input
+		    .range([height3, 0]); // output
+
+		// 7. d3's line generator
+		var line2 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScale(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+		// 1. Add the SVG to the page and employ #2
+		var svg6 = d3.select("#predictiveKPIsChart").append("svg")
+			.attr("class","predictiveSpeedKPI")
+		    .attr("width", width3 + margin2.left + margin2.right)
+		    .attr("height", height3 + margin2.top + margin2.bottom)
+		  .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+ // xScale.domain(d3.extent(data, function(d) { return d.t; }));
+  //yScale.domain([0, d3.max(data, function(d) { return d.y; })]);
+
+
+
+		// 3. Call the x axis in a group tag
+		svg6.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6.append("path")
+		    .datum(dataset) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line2); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6.selectAll(".dot")
+		    .data(dataset)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScale(d.y) })
+		    .attr("r", 5);
+
+
+		// 3. Call the x axis in a group tag
+		svg6.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisRight(yScalea))
+		    .attr("transform", "translate("+width3+",0)"); // Create an axis component with d3.axisLeft
+
+
+		var line3 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalea(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6.append("path")
+		    .datum(dataset2) // 10. Binds data to the line
+		    .attr("class", "line3") // Assign a class for styling
+		    .attr("d", line3); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6.selectAll(".dot")
+		    .data(dataset2)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScalea(d.y) })
+		    .attr("r", 5);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // xScale.domain(d3.extent(data, function(d) { return d.t; }));
+  //yScale.domain([0, d3.max(data, function(d) { return d.y; })]);
+
+
+
+		var svg6a = d3.select("#predictiveKPIsChart").append("svg")
+			.attr("class","predictiveGearKPI")
+		    .attr("width", width3 + margin2.left + margin2.right)
+		    .attr("height", height3 + margin2.top + margin2.bottom)
+		  .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+		// 3. Call the x axis in a group tag
+		svg6a.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6a.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScalee)); // Create an axis component with d3.axisLeft
+
+
+		line7 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalee(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6a.append("path")
+		    .datum(dataset4) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line7); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6a.selectAll(".dot")
+		    .data(dataset4)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScalee(d.y) })
+		    .attr("r", 5);
+
+
+		// 3. Call the x axis in a group tag
+		svg6a.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6a.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisRight(yScale))
+		    .attr("transform", "translate("+width3+",0)"); // Create an axis component with d3.axisLeft
+
+
+		line3 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScale(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6a.append("path")
+		    .datum(dataset) // 10. Binds data to the line
+		    .attr("class", "line3") // Assign a class for styling
+		    .attr("d", line3); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6a.selectAll(".dot")
+		    .data(dataset)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScale(d.y) })
+		    .attr("r", 5);
+
+
+
+
+
+		var svg6b = d3.select("#predictiveKPIsChart").append("svg")
+			.attr("class","predictiveBoostKPI")
+		    .attr("width", width3 + margin2.left + margin2.right)
+		    .attr("height", height3 + margin2.top + margin2.bottom)
+		  .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+		// 3. Call the x axis in a group tag
+		svg6b.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6b.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScaleb)); // Create an axis component with d3.axisLeft
+
+		var line4 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScaleb(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6b.append("path")
+		    .datum(dataset5) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line4); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6b.selectAll(".dot")
+		    .data(dataset5)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScaleb(d.y) })
+		    .attr("r", 5);
+
+
+		// 3. Call the x axis in a group tag
+		svg6b.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6b.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisRight(yScalec))
+		    .attr("transform", "translate("+width3+",0)"); // Create an axis component with d3.axisLeft
+
+
+		line3 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalec(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+		var line5 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScalec(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+		// 9. Append the path, bind the data, and call the line generator
+		svg6b.append("path")
+		    .datum(dataset6) // 10. Binds data to the line
+		    .attr("class", "line3") // Assign a class for styling
+		    .attr("d", line5); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6b.selectAll(".dot")
+		    .data(dataset6)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScalec(d.y) })
+		    .attr("r", 5);
+
+
+
+
+
+
+		var svg6c = d3.select("#predictiveKPIsChart").append("svg")
+			.attr("class","predictivePayloadKPI")
+		    .attr("width", width3 + margin2.left + margin2.right)
+		    .attr("height", height3 + margin2.top + margin2.bottom)
+		  .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+		// 3. Call the x axis in a group tag
+		svg6c.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height3 + ")")
+		    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svg6c.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScaled)); // Create an axis component with d3.axisLeft
+
+		var line6 = d3.line()
+		    .x(function(d, i) { return xScale(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScaled(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+		// 9. Append the path, bind the data, and call the line generator
+		svg6c.append("path")
+		    .datum(dataset7) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", line6); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svg6c.selectAll(".dot")
+		    .data(dataset7)
+		  .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScale(d.t) })
+		    .attr("cy", function(d) { return yScaled(d.y) })
+		    .attr("r", 5);
+
+
+
+
+
+
+		var xScaleF = d3.scaleTime()
+			  .domain(d3.extent(dataset, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, 1100]); // output
+
+		// 6. Y scale will use the randomly generate number
+		var yScaleF = d3.scaleLinear()
+		    .domain([0, 30]) // input
+		    .range([220, 0]); // output
+
+		var svgF = d3.select("#fuelConsumptionRate").append("svg")
+		    .attr("class","fuelConsumptionRateKPI")
+		    .attr("width", 1100 + margin2.left + margin2.right)
+		    .attr("height", 220 + margin2.top + margin2.bottom)
+		    .append("g")
+		    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+		// 3. Call the x axis in a group tag
+		svgF.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + 220 + ")")
+		    .call(d3.axisBottom(xScaleF)); // Create an axis component with d3.axisBottom
+
+		// 4. Call the y axis in a group tag
+		svgF.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(yScaleF)); // Create an axis component with d3.axisLeft
+
+		var lineF = d3.line()
+		    .x(function(d, i) { return xScaleF(d.t); }) // set the x values for the line generator
+		    .y(function(d) { return yScaleF(d.y); }) // set the y values for the line generator
+		    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+
+		// 9. Append the path, bind the data, and call the line generator
+		svgF.append("path")
+		    .datum(dataset7) // 10. Binds data to the line
+		    .attr("class", "line2") // Assign a class for styling
+		    .attr("d", lineF); // 11. Calls the line generator
+
+		// 12. Appends a circle for each datapoint
+		svgF.selectAll(".dot")
+		    .data(dataset7)
+		    .enter().append("circle") // Uses the enter().append() method
+		    .attr("class", "dot") // Assign a class for styling
+		    .attr("cx", function(d, i) { return xScaleF(d.t) })
+		    .attr("cy", function(d) { return yScaleF(d.y) })
+		    .attr("r", 5);
+
+
+
+
+// 5. X scale will use the index of our data
+		var xScale3 = d3.scaleTime()
+			  .domain(d3.extent(dataset, function(d) {
+			    return d.t;
+			  }))
+		    .range([0, width5]); // output
+
+// 6. Y scale will use the randomly generate number
+var yScale3 = d3.scaleLinear()
+    .domain([0, 30]) // input
+    .range([height5, 0]); // output
+
+
+		    		var yScale3a = d3.scaleLinear()
+		    .domain([0, 4000]) // input
+		    .range([height5, 0]); // output
+
+		    		    		var yScale3b = d3.scaleLinear()
+		    .domain([0, 200]) // input
+		    .range([height5, 0]); // output
+
+		    		    		var yScale3c = d3.scaleLinear()
+		    .domain([0, 2000]) // input
+		    .range([height5, 0]); // output
+
+		    		    		var yScale3d = d3.scaleLinear()
+		    .domain([0, 16]) // input
+		    .range([height5, 0]); // output
+
+		    		    		    		var yScale3e = d3.scaleLinear()
+		    .domain([0, 35000]) // input
+		    .range([height5, 0]); // output
+
+
+// 7. d3's line generator
+var line3 = d3.line()
+    .x(function(d, i) { return xScale3(d.t); }) // set the x values for the line generator
+    .y(function(d) { return yScale3(d.y); }) // set the y values for the line generator
+//    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+// 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
+var dataset3 = dataset;
+/*
+// 1. Add the SVG to the page and employ #2
+var svg8 = d3.select("#rawDataChart").append("svg")
+    .attr("width", width5 + margin2.left + margin2.right)
+    .attr("height", height5 + margin2.top + margin2.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+// 3. Call the x axis in a group tag
+svg8.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height5 + ")")
+    .call(d3.axisBottom(xScale3)); // Create an axis component with d3.axisBottom
+
+// 4. Call the y axis in a group tag
+svg8.append("g")
+    .attr("class", "y axis")
+    .call(d3.axisLeft(yScale3)); // Create an axis component with d3.axisLeft
+
+// 9. Append the path, bind the data, and call the line generator
+svg8.append("path")
+    .datum(dataset3) // 10. Binds data to the line
+    .attr("class", "line2") // Assign a class for styling
+    .attr("d", line3); // 11. Calls the line generator
+
+// 12. Appends a circle for each datapoint
+svg8.selectAll(".dot")
+    .data(dataset3)
+  .enter().append("circle") // Uses the enter().append() method
+    .attr("class", "dot") // Assign a class for styling
+    .attr("cx", function(d, i) { return xScale3(d.t) })
+    .attr("cy", function(d) { return yScale3(d.y) })
+    .attr("r", 5);
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let width4z = 630;
+let height4z = 180;
+
+// 5. X scale will use the index of our data
+var xScale2z = d3.scaleTime()
+			  .domain(d3.extent(dataset, function(d) {
+			    return d.t;
+			  }))
+    .range([0, width4z]); // output
+
+
+// 6. Y scale will use the randomly generate number
+var yScale2z = d3.scaleLinear()
+    .domain([0, 30]) // input
+    .range([height4z, 0]); // output
+
+// 7. d3's line generator
+var line3z = d3.line()
+    .x(function(d, i) { return xScale2z(d.t); }) // set the x values for the line generator
+    .y(function(d) { return yScale2z(d.y); }) // set the y values for the line generator
+    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+// 1. Add the SVG to the page and employ #2
+var svg7 = d3.select("#fleetKPIsChart").append("svg")
+    .attr("width", width4z + margin2.left + margin2.right)
+    .attr("height", height4z + margin2.top + margin2.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+// 3. Call the x axis in a group tag
+svg7.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height4z + ")")
+    .call(d3.axisBottom(xScale2z)); // Create an axis component with d3.axisBottom
+
+// 4. Call the y axis in a group tag
+svg7.append("g")
+    .attr("class", "y axis")
+    .call(d3.axisLeft(yScale2z)); // Create an axis component with d3.axisLeft
+
+// 9. Append the path, bind the data, and call the line generator
+svg7.append("path")
+    .datum(dataset) // 10. Binds data to the line
+    .attr("class", "line3") // Assign a class for styling
+    .attr("d", line3z); // 11. Calls the line generator
+
+// 12. Appends a circle for each datapoint
+svg7.selectAll(".dot")
+    .data(dataset)
+  .enter().append("circle") // Uses the enter().append() method
+    .attr("class", "dot2") // Assign a class for styling
+    .attr("cx", function(d, i) { return xScale2z(d.t) })
+    .attr("cy", function(d) { return yScale2z(d.y) })
+    .attr("r", 5);
+/*
+// 9. Append the path, bind the data, and call the line generator
+svg7.append("path")
+    .datum(datasetz) // 10. Binds data to the line
+    .attr("class", "line3") // Assign a class for styling
+    .attr("d", line3z); // 11. Calls the line generator
+
+// 12. Appends a circle for each datapoint
+svg7.selectAll(".dot")
+    .data(datasetz)
+  .enter().append("circle") // Uses the enter().append() method
+    .attr("class", "dot2") // Assign a class for styling
+    .attr("cx", function(d, i) { return xScale2z(d.t) })
+    .attr("cy", function(d) { return yScale2z(d.y) })
+    .attr("r", 5);
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$("#rawKPIDropdown").change(function(){
+	$(".gearRawKPI,.speedRawKPI,.engineRawKPI,.boostRawKPI,.bodyRawKPI,.payloadRawKPI,.brakeRawKPI").hide();
+	if($(this).val() == "gear") $(".gearRawKPI").show();
+	else if($(this).val() == "speed") $(".speedRawKPI").show();
+	else if($(this).val() == "engine") $(".engineRawKPI").show();
+	else if($(this).val() == "body") $(".bodyRawKPI").show();
+	else if($(this).val() == "boost") $(".boostRawKPI").show();
+	else if($(this).val() == "brake") $(".brakeRawKPI").show();
+	else if($(this).val() == "payload") $(".payloadRawKPI").show();
+});
+$("#KPIDropdown").change(function(){
+	$(".predictiveGearKPI,.predictiveSpeedKPI,.predictivePayloadKPI,.predictiveBoostKPI,.predictiveEH,.predictiveFuel").hide();
+	if($(this).val() == "gear") $(".predictiveGearKPI").show();
+	else if($(this).val() == "speed") $(".predictiveSpeedKPI").show();
+	else if($(this).val() == "eh") $(".predictiveEH").show();
+	else if($(this).val() == "payload") $(".predictivePayloadKPI").show();
+	else if($(this).val() == "boost") $(".predictiveBoostKPI").show();
+	else if($(this).val() == "fc") $(".predictiveFuel").show();
+});["groundSpeed","engineHours","bodyPosistion","rpm","oilPressure"];
+
+$("#rawDropdown").change(function(){
+	$(".groundSpeed,.engineHours,.bodyPosistion,.rpm,.oilPressure").hide();
+	$(".".concat($(this).val(),".",$("#rawAssetsDropdown").val())).show();
+
+});
+$('#rawAssetsDropdown').change(function(){
+	$(".symbotE400140,.symbotE400141,.symbotE400143").hide();
+	$(".".concat($(this).val(),".",$("#rawDropdown").val())).show();
+});
+$('#dropdownassets').change(function(){
+	if($(this).val() == "all") setMapOnAll(map);
+	else if($(this).val() == "A247F3") chooseAsset(0);
+	else if($(this).val() == "A247F2") chooseAsset(1);
+	else if($(this).val() == "A248I3") chooseAsset(2);
+});
+
+     </script>
+	<script>
+		// This example creates a simple polygon representing the Bermuda Triangle.
+		let map;
+		let markers= [];
+		function initMap() {
+			map = new google.maps.Map(document.getElementById("map"), {
+				zoom: 14,
+				center: { lat: 39.189267, lng: -116.215783 },
+				mapTypeId: "terrain",
+			});
+		    markers.push(new google.maps.Marker({
+				position: {lat: 39.189577, lng: -116.215403},
+				map,
+				title: "A247F2",
+		  	}));
+			markers.push(new google.maps.Marker({
+				position: {lat: 39.182507, lng: -116.216033},
+				map,
+				title: "A247F3",
+		  	}));
+			markers.push(new google.maps.Marker({
+				position: {lat: 39.179507, lng: -116.215033},
+				map,
+				title: "A248I3",
+		  	}));
+		}
+		function chooseAsset(number){
+			map.panTo(markers[number].getPosition());
+			map.setZoom(16);
+		}
+		function setMapOnAll(map) {
+			map.setZoom(14);
+			map.panTo({ lat: 39.189267, lng: -116.215783 });
+		}
+		$("#closeNotificationWindow").click(function(){ $("#notificationWindow").css("display","none"); });
+		$("#bell").click(function(){ $("#notificationWindow").css("display","block"); });
+	</script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXFAxSgXP7b5D25WEtjxkYqoWM2PjxaLg&callback=initMap&libraries=places" async></script>
+	</body>
+</html>
