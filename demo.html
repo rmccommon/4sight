@@ -1140,6 +1140,83 @@ font-size: 3em;}
 .rawGear,.rawBodypos,.rawBoost,.rawEngine,.rawPayload{
 	display: none
 }
+.adminRow{
+	display:flex;
+	font-family: RobotoTwo;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	border-top-style: solid;
+	line-height: 21px;
+	border-top-color: lightgrey;
+}
+.adminRowLeft{
+	font-weight:bold;
+	margin-top: 20px;
+	margin-right:30px;
+}
+.Users{
+	margin-top: 20px;
+	font-weight:500;
+}
+.User{
+	margin-top:5px;
+	margin-bottom:20px;
+	display:flex;
+}
+.UserDetail{
+	margin-left: 5px;
+	font-weight:normal;
+	color:grey;
+}
+.addUser{
+	margin-top: 20px;
+	cursor:pointer;
+	color:#4C8BF5;
+}
+.adminRowRight{
+	display:none;
+	margin-left:40px;
+	border-left: lightgray;
+  border-left-width: thin;
+  border-left-style: solid;
+	height: 1949px;
+	padding-left:30px;
+	padding-top:20px
+}
+.UserFormHeader{
+	margin-bottom:10px;
+	font-weight:bold;
+}
+.UserForm input{
+	border: none;
+	margin-bottom:25px;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+	font-size:24px;
+}
+.FirstFormRow input{
+	width:49%;
+}
+.otherFormRows input{
+
+	width: 100%;
+}
+.saveButton{
+	color:#4C8BF5;
+	margin-top:20px;
+	margin-left:92%;
+	cursor:pointer;
+	font-weight:bold;
+}
+.UserForm{
+	width:700px;
+	margin-top:20px;
+}
+.UsersEditIcon{
+	margin-top: 10px;
+  margin-left: 800px;
+}
 #fleetPage,#rawDataPage{position: relative;top:-50px;}
 #rawDataDiv{position: relative;top:-40px;}
 #table{height:152px;}
@@ -1310,7 +1387,7 @@ cursor: pointer
 
 			<div id="Tosca"><button class="ToscaDropDown">Tosca Mining</button>
 				<div class="dropdown-content">
-					<div>Admin Settings</div>
+					<div id="adminSettingsButton">Admin Settings</div>
 					<div>Profile settings</div>
 					<div>Log Out</div>
 				</div>
@@ -1850,6 +1927,37 @@ width: 100%;
 	</div>
 	<div id="diagnosticsPage">
 		<img src="./3dPic.JPG" width="100%" style="padding-top: 30px">
+	</div>
+	<div id="adminSettingsPage" style="display:none">
+			<div class="adminRow">
+				<div class="adminRowLeft">Users</div>
+				<div class="Users">
+					<div class="User">John Smith <div class="UserDetail">Admin</div></div>
+					<div class="User">Walter White <div class="UserDetail">Admin</div></div>
+					<div class="User">Dan Tucket <div class="UserDetail">Operator</div></div>
+					<div class="User">Ben Swanson <div class="UserDetail">Operator</div></div>
+					<div class="addUser" id="addUserButton">+Add User</div>
+				</div>
+				<div class="UsersEditIcon" id="UsersEditIcon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+  					<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+  					<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+					</svg>
+				</div>
+				<div class="adminRowRight" id="adminRowRight">
+					<div class="UserFormHeader">Add User</div>
+					<div class="UserForm">
+						<div class="FirstFormRow"><input type="text" name="fname" placeholder="First Name"> <input type="text" name="lname" placeholder="Last Name"></div>
+						<div class="otherFormRows">
+							<input type="text" name="nick" placeholder="Nick Name"><br>
+							<input type="text" name="email" placeholder="Email"><br>
+							<input type="text" name="Tzone" placeholder="Time Zone"><br>
+							<input type="text" name="role" placeholder="Role"><br>
+						</div>
+						<div class="saveButton" id="saveButton">Save</div>
+					</div>
+				</div>
+			</div>
 	</div>
 			</div>
 			<form id="form1"></form>
@@ -44100,53 +44208,65 @@ var svg8 = d3.select("#rawDataChart").append("svg")
 
         //		Code for switching between Pages		\\
      	$("#fleetOverview").click(function(){
-     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#fleetPage").css("display","block");$("#vehicleOverviewBox").css("top","128px");
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#fleetPage").css("display","block");$("#vehicleOverviewBox").css("top","128px");
      		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
      		$("#overview").text("Fleet Overview");
 
      	});
      	$("#uptake").click(function(){
-     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#uptakePage").css("display","block");$("#vehicleOverviewBox").css("top","485px");
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#uptakePage").css("display","block");$("#vehicleOverviewBox").css("top","485px");
      		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
      		$("#overview").text("Uptake");
 
      	});
 
      	$("#marketplace").click(function(){
-     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","block"); $("#benchmarkPage").css("display","none");$("#vehicleOverviewBox").css("top","428px");
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","block"); $("#benchmarkPage").css("display","none");$("#vehicleOverviewBox").css("top","428px");
      		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
      		$("#overview").text("Marketplace");
 
      	});
 			$("#FuelWarningButton").click(function(){
-     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
      		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
      		$("#overview").text("Overview");
 
      	});
      	$("#benchmarks").click(function(){
-     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
      		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
      		$("#overview").text("Overview");
 
      	});
 			$("#diagnosticsWarningButton").click(function(){
-				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
+				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
 				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
 				$("#overview").text("Diagnostics Metrics");
 
 			});
+			$("#adminSettingsButton").click(function(){
+				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#adminSettingsPage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#adminSettingsPage").css("display","block");
+				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+				$("#overview").text("Admin Panel");
+
+			});
 			$("#diagnostics").click(function(){
-				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
+				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
 				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
 				$("#overview").text("Diagnostics Metrics");
 
+			});
+			$("#addUserButton").click(function(){
+				$("#UsersEditIcon").css("margin-left","50px");$("#adminRowRight").show();
+			});
+			$("#saveButton").click(function(){
+				$("#adminRowRight").hide();$("#UsersEditIcon").css("margin-left","800px");
 			});
 
 
 
      	$("#vehicleOverview").click(function(){
-     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#vehiclePage").css("display","block");$("#vehicleOverviewBox").css("top","188px");
+     		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#vehiclePage").css("display","block");$("#vehicleOverviewBox").css("top","188px");
      	     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
      		$("#overview").text("Vehicle Overview");});
      	$("#rawData").click(function(){ $("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#rawDataPage").css("display","block");$("#vehicleOverviewBox").css("top","248px");     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
