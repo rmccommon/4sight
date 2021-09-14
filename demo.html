@@ -607,6 +607,14 @@ color: #4C8BF5;
 
 
 }
+#TagSelector{
+	position: absolute;
+	width: 147px;
+	height: 28px;
+	left: 555px;
+	top: 92px;
+	display:none;
+}
 #selectDate{/* Rectangle 31 */
 
 position: absolute;
@@ -1368,6 +1376,14 @@ cursor: pointer
 <svg id="dateArrow" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.5 6L10.2631 0H0.73686L5.5 6Z" fill="#999"/>
 </svg>
+<select name="Tags" id="TagSelector">
+	<option value="currentGear">Current Gear</option>
+	<option value="speed">Speed</option>
+	<option value="engineHours">Engine Hours</option>
+	<option value="boostPressure">Boost Pressure</option>
+	<option value="rpm">Engine RPM</option>
+	<option value="performanceDegradation">Performance Degradation</option>
+</select>
 
 
 <svg id="bell" width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44209,50 +44225,52 @@ var svg8 = d3.select("#rawDataChart").append("svg")
         //		Code for switching between Pages		\\
      	$("#fleetOverview").click(function(){
      		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#fleetPage").css("display","block");$("#vehicleOverviewBox").css("top","128px");
-     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").hide();
      		$("#overview").text("Fleet Overview");
 
      	});
      	$("#uptake").click(function(){
      		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#uptakePage").css("display","block");$("#vehicleOverviewBox").css("top","485px");
-     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").hide();
      		$("#overview").text("Uptake");
 
      	});
 
      	$("#marketplace").click(function(){
      		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","block"); $("#benchmarkPage").css("display","none");$("#vehicleOverviewBox").css("top","428px");
-     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").hide();
      		$("#overview").text("Marketplace");
 
      	});
 			$("#FuelWarningButton").click(function(){
      		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
-     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").hide();
      		$("#overview").text("Overview");
 
      	});
      	$("#benchmarks").click(function(){
      		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#benchmarkPage").css("display","block");$("#vehicleOverviewBox").css("top","308px");
-     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").hide();
      		$("#overview").text("Overview");
 
      	});
 			$("#diagnosticsWarningButton").click(function(){
 				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
 				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+				$("#TagSelector").hide();
 				$("#overview").text("Diagnostics Metrics");
 
 			});
 			$("#adminSettingsButton").click(function(){
 				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#adminSettingsPage,#diagnosticsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#adminSettingsPage").css("display","block");
-				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
+				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").hide();
 				$("#overview").text("Admin Panel");
 
 			});
 			$("#diagnostics").click(function(){
 				$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#adminSettingsPage").css("display","none"); $("#marketplacePage").css("display","none"); $("#diagnosticsPage").css("display","block");$("#vehicleOverviewBox").css("top","368px");
 				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+				$("#TagSelector").hide();
 				$("#overview").text("Diagnostics Metrics");
 
 			});
@@ -44268,10 +44286,11 @@ var svg8 = d3.select("#rawDataChart").append("svg")
      	$("#vehicleOverview").click(function(){
      		$("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage,#adminSettingsPage").css("display","none"); $("#vehiclePage").css("display","block");$("#vehicleOverviewBox").css("top","188px");
      	     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+							$("#TagSelector").hide();
      		$("#overview").text("Vehicle Overview");});
      	$("#rawData").click(function(){ $("#uptakePage,#fleetPage,#vehiclePage,#rawDataPage,#benchmarkPage,#marketplacePage,#diagnosticsPage").css("display","none"); $("#rawDataPage").css("display","block");$("#vehicleOverviewBox").css("top","248px");     		$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").hide();
      		$("#overview").text("Engine Overview");
-				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow").show();
+				$("#assetID,#assetArrow,#selectDate,#selectDateText,#dateArrow,#TagSelector").show();
 			});
 
      	let dataPoints = [];
